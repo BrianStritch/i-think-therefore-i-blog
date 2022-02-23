@@ -1,108 +1,207 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+# __I THINK THEREFORE I BLOG WALTHROUGH DJANGO PROJECT__
 
-Welcome BrianStritch,
+#### __pakages to be installed__
+ - pip3 install Django==3.2 gunicorn
+ - pip3 install dj_database_url psycopg2
+ - pip3 install dj3-cloudinary-storage
+ - pip3 freeze -- local > requirements.txt
+ - django-admin startproject codestar .  this is the code to create the new django project
+ - python3 manage.py startapp blog
+ - python3 manage.py migrate   this migrates all our changes to the DB
 
-This is the Code Institute student template for Gitpod. We have preinstalled all of the tools you need to get started. It's perfectly ok to use this template as the basis for your project submissions.
+ - python3 manage.py runserver    this is the code to run the file
 
-You can safely delete this README.md file, or change it for your own project. Please do read it at least once, though! It contains some important information about Gitpod and the extensions we use. Some of this information has been updated since the video content was created. The last update to this file was: **September 1, 2021**
 
-## Gitpod Reminders
+## __ THE DEVELOPMENT PLAN__
+    - We're now ready to start  coding out our Django blog. 
+        Now our development plan is that we're going  to install all of the libraries that we need  
+        straight away, and deploy to Heroku early on.  
+        That way, it saves us time later and we know  that our project is working straight away.
+        Now remember that we said earlier we want to use  Heroku’s PostgreSQL add-on to store our data,  
+        and Cloudinary to store our images. So we're going  to get all of that working right at the start.
+        You may be wondering why we don’t just store  images on Heroku? Why do we need a separate hosting provider?
+        This is because Heroku has  what’s known as an “ephemeral file system”.
+        When you create a Heroku app it provisions  what's known as a dyno. And this is effectively  
+        like a small container to run your project  in. When your project has been idle and no  
+        one has accessed it for a while, then  the dyno stops to conserve resources.  
+        When that happens, any files that have been  uploaded since the project was created are lost. 
+        So we don't want visitors to our site  to end up seeing broken image links. 
+        Therefore, we're going to upload  them to a persistent file store,  
+        which is where Cloudinary comes in. Now we could have chosen to use another  
+        provider such as Microsoft Azure or Amazon  S3, but these are more complicated to set up.  
+        If you go on to study e-commerce with us, then  you'll learn how to upload images to Amazon S3.
+        But for everything we want to do in this  project, Cloudinary is a perfectly good solution.
+        So our first tasks for creating  a basic Django project will be: 
+        Firstly, installing Django  and the supporting libraries. 
+        Secondly, we'll create a  new Django project and app. 
+        Third, we'll set the project to  use Cloudinary and PostgreSQL.
+        And then fourth, we'll deploy  our empty project to Heroku.
+        I suggest following this process  for all of your projects, it'll  
+        it'll save you from having nasty surprises later on. We've put all of these steps together in a cheat  
+        sheet that's linked below the video. So that you  can use it for your projects going on from here.  
+        So now that we know our steps, in our  next video we'll perform the first two.
+        Installing Django and then  creating our new empty project.
 
-To run a frontend (HTML, CSS, Javascript only) application in Gitpod, in the terminal, type:
+# __Creating The Empty Django Project__
+__Important!__
+Terminal command update
+Since this video was created Django have introduced a new version that will be automatically installed if you use the command in the video.
 
-`python3 -m http.server`
+To ensure that you get the same version of django and gunicorn used in this video and so that nothing breaks as you do the walkthrough, instead of the command pip3 install django gunicorn, please use this:
 
-A blue button should appear to click: _Make Public_,
+pip3 install Django==3.2 gunicorn
 
-Another blue button should appear to click: _Open Browser_.
+Django 3.2 is the LTS (Long Term Support) version of Django and is therefore preferable to use over the newest Django 4
 
-To run a backend Python file, type `python3 app.py`, if your Python file is named `app.py` of course.
+    - In our previous video, we outlined the steps we needed to get our project deployed early.
+        Now, we'll do the first two steps which are
+        installing Django and all the supporting libraries and creating a new blank Django project.
 
-A blue button should appear to click: _Make Public_,
+    - Okay, so in a new workspace based on our Github repo we want to install Django and
+        the server we use to run it on Heroku so type: 'pip3 install Django==3.2 gunicorn'
+        And gunicorn is the server that we're going to use to run Django on Heroku.
+        Now I'm just going to clear the terminal here between each step
+        because it makes it a little bit easier to read.
 
-Another blue button should appear to click: _Open Browser_.
+    - So now let's install the supporting libraries. First the library is needed for PostgreSQL
+        which is: "dj_database_url" and another library called "pyscopg2".
 
-In Gitpod you have superuser security privileges by default. Therefore you do not need to use the `sudo` (superuser do) command in the bash terminal in any of the lessons.
+    - Once all of those are installed, then we can install the libraries that we need to run Cloundinary.
+        So I'll just clear the terminal again just to make it easier for you to see what's going on.
+        And we'll type "pip3 install dj3-cloudinary-storage".
+        Now after this there will be one or two more libraries that we'll need to install,
+        but this will get the bare bones of our application working.
+        So that's all of the libraries that we need to have installed for now,
+        I'll just clear the terminal window one more time.
 
-To log into the Heroku toolbelt CLI:
+    - And then we're going to create our requirements.txt file. Now, if you
+        can remember how to do that feel free to pause the video and create it for yourself.
+        If not, don't worry just come back after the pause and I'll show you how to do it.
+        So what we're going to do is type "pip3 freeze -- local > requirements.txt"
+        and then we're going to redirect that to the requirements.txt file.
 
-1. Log in to your Heroku account and go to *Account Settings* in the menu under your avatar.
-2. Scroll down to the *API Key* and click *Reveal*
-3. Copy the key
-4. In Gitpod, from the terminal, run `heroku_config`
-5. Paste in your API key when asked
+    - Test time again, can you remember from our earlier videos the command to create a new Django project?
+        We want to call our project codestar because that will be the name of our blog.
+        If you can remember the command, pause the video type it in the terminal now.
+        If not, hang tight and I'll show you after the pause.
+        So the command is "django-admin startproject codestar ."
+        That dot on the end tells Django admin that we want to create our project in the current
+        directory, now when we run that command we can see that it's created a manage.py file and a directory
+        called codestar. If we look inside that directory we can see our default settings and URL files.
 
-You can now use the `heroku` CLI program - try running `heroku apps` to confirm it works. This API key is unique and private to you so do not share it. If you accidentally make it public then you can create a new one with _Regenerate API Key_.
+    - So the next thing we'll do is create our blog app. Now again, if you can remember
+        the command to do it, pause the video, type it in. If you can't remember, don't panic,
+        I'll show you straight after the pause. So the name of our app as we said will be blog.
+        So this time we need to use the manage.py file so it's,
+        "python3 manage.py startapp blog"
 
-------
+    - So now that our blog app is created we need to add it to the list of installed apps in
+        our settings.py file. So navigate back to the codestar directory and open the settings.py file,
+        and in the installed app section we want to add in
+        our newly created blog app so we'll just scroll down to our installed apps here.
+        On the end there, we'll put blog and we'll also put a comma.
+        Now my preference normally is to use double quotes around strings.
+        Django seems to prefer single, so I'll try to remember that as we write this project together.
 
-## Release History
+    - Okay now that we've added that, let's save the file
+        and then we can go back to the terminal and we need to migrate the changes to the database.
+        Whenever we add a new app or anything like that migrations are automatically created. So if you
+        can remember the command to migrate the changes to the database pause the video go ahead and type it.
+        So the command is: python3 manage.py migrate
+        This will add all of the changes to our new database.
+        
+    - Now, when we run our project using
+        "python3 manage.py runserver" and open it up in our browser.
+        Then, what we should see is that the basic skeleton project is now up and running.
+        So open the browser...
+        And we can see that we have success.
 
-We continually tweak and adjust this template to help give you the best experience. Here is the version history:
+In this video, then, we got our libraries installed and our basic project up and running.
+In the next video, we'll link it to our Heroku database and do our first deployment.
 
-**September 1 2021:** Remove `PGHOSTADDR` environment variable.
 
-**July 19 2021:** Remove `font_fix` script now that the terminal font issue is fixed.
 
-**July 2 2021:** Remove extensions that are not available in Open VSX.
 
-**June 30 2021:** Combined the P4 and P5 templates into one file, added the uptime script. See the FAQ at the end of this file.
 
-**June 10 2021:** Added: `font_fix` script and alias to fix the Terminal font issue
 
-**May 10 2021:** Added `heroku_config` script to allow Heroku API key to be stored as an environment variable.
 
-**April 7 2021:** Upgraded the template for VS Code instead of Theia.
 
-**October 21 2020:** Versions of the HTMLHint, Prettier, Bootstrap4 CDN and Auto Close extensions updated. The Python extension needs to stay the same version for now.
 
-**October 08 2020:** Additional large Gitpod files (`core.mongo*` and `core.python*`) are now hidden in the Explorer, and have been added to the `.gitignore` by default.
 
-**September 22 2020:** Gitpod occasionally creates large `core.Microsoft` files. These are now hidden in the Explorer. A `.gitignore` file has been created to make sure these files will not be committed, along with other common files.
 
-**April 16 2020:** The template now automatically installs MySQL instead of relying on the Gitpod MySQL image. The message about a Python linter not being installed has been dealt with, and the set-up files are now hidden in the Gitpod file explorer.
 
-**April 13 2020:** Added the _Prettier_ code beautifier extension instead of the code formatter built-in to Gitpod.
 
-**February 2020:** The initialisation files now _do not_ auto-delete. They will remain in your project. You can safely ignore them. They just make sure that your workspace is configured correctly each time you open it. It will also prevent the Gitpod configuration popup from appearing.
 
-**December 2019:** Added Eventyret's Bootstrap 4 extension. Type `!bscdn` in a HTML file to add the Bootstrap boilerplate. Check out the <a href="https://github.com/Eventyret/vscode-bcdn" target="_blank">README.md file at the official repo</a> for more options.
 
-------
 
-## FAQ about the uptime script
 
-**Why have you added this script?**
 
-It will help us to calculate how many running workspaces there are at any one time, which greatly helps us with cost and capacity planning. It will help us decide on the future direction of our cloud-based IDE strategy.
 
-**How will this affect me?**
 
-For everyday usage of Gitpod, it doesn’t have any effect at all. The script only captures the following data:
 
-- An ID that is randomly generated each time the workspace is started.
-- The current date and time
-- The workspace status of “started” or “running”, which is sent every 5 minutes.
 
-It is not possible for us or anyone else to trace the random ID back to an individual, and no personal data is being captured. It will not slow down the workspace or affect your work.
 
-**So….?**
 
-We want to tell you this so that we are being completely transparent about the data we collect and what we do with it.
 
-**Can I opt out?**
 
-Yes, you can. Since no personally identifiable information is being captured, we'd appreciate it if you let the script run; however if you are unhappy with the idea, simply run the following commands from the terminal window after creating the workspace, and this will remove the uptime script:
 
-```
-pkill uptime.sh
-rm .vscode/uptime.sh
-```
 
-**Anything more?**
 
-Yes! We'd strongly encourage you to look at the source code of the `uptime.sh` file so that you know what it's doing. As future software developers, it will be great practice to see how these shell scripts work.
 
----
 
-Happy coding!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
