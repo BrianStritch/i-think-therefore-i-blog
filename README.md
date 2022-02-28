@@ -11,6 +11,11 @@
 
  - python3 manage.py runserver    this is the code to run the file
 
+ after creating database models you can make your migrations
+ - python3 manage.py makemigrations
+ then 
+ - python3 manage.py migrate
+
 
 ## __ THE DEVELOPMENT PLAN__
     - We're now ready to start  coding out our Django blog. 
@@ -237,21 +242,27 @@ So firstly, let's create a Cloudinary account. It's completely free, no credit c
 
     - when you get to your dashboard which  contains your API authentication information.
         Just click on the copy to clipboard  link next to API environment variable  
-        we'll use this to connect our app to Cloudinary. Now we can go back to our ide and in our env.py  
+        we'll use this to connect our app to Cloudinary. 
+        
+    - Now we can go back to our ide and in our env.py  
         file, we'll add another line at the bottom. "os.environ" 
         We'll set the CLOUDINARY_URL, and then we  can paste in the value that we just copied.  
         It's not quite right though, we need to remove  "CLOUDINARY_URL =" from the beginning,  
         and then we'll copy this value again, so  that we can paste it into Heroku as well.
-        So back to our Heroku dashboard we'll add a new  config variable the same name CLOUDINARY_URL.  
-        And we'll paste in the value that we just  copied. Now we also just need to add in  
-        one more temporary environment variable  too, which is "disable_collect static".
+
+    - So back to our Heroku dashboard we'll add a new  config variable the same name CLOUDINARY_URL.  
+        And we'll paste in the value that we just  copied. 
+    
+    - Now we also just need to add in one more temporary environment variable  too, which is "disable_collect static".
         And we'll set that to one this is just to get  our skeleton project deploying because we don't  
         actually have any static files yet, we'll remove  this when it comes to deploying our full project.
-        Okay, so back in our settings.py file, let's  go to the installed apps section and add in the  
+
+    - Okay, so back in our settings.py file, let's  go to the installed apps section and add in the  
         Cloudinary libraries that we installed before.  So "cloudinary_storage" and this needs to go  
         just above "django.contrib.staticfiles" and then  the regular Cloudinary library can go underneath.
         Now we just need to tell Django to use  Cloudinary to store our media and static files  
         so down near the end of our settings.py  file we can add these few lines.
+
         First of all, "STATICFILES_STORAGE" and in here we can tell it to use,
         "Cloudinary_storage.storage.StaticHashedCloudinaryStorage",
         so this is coming from the  library that we installed above,
@@ -268,7 +279,8 @@ So firstly, let's create a Cloudinary account. It's completely free, no credit c
         "Cloudinary_storage.storage.MediaCloudinaryStorage".
         And believe it or not that's all that's  needed to link our app to Cloudinary,  
         it's actually very simple.
-        Now we also need to tell Django  where our templates will be stored.  
+
+    - Now we also need to tell Django  where our templates will be stored.  
         So back up to the top of settings.py and under the  base directory let's add in a templates directory.
         "TEMPLATES_DIR =  os.path.join(BASE_DIR, 'templates')"
         And now we just need to scroll down midway in  our settings.py file and change the D-I-R-S key,  
@@ -278,11 +290,13 @@ So firstly, let's create a Cloudinary account. It's completely free, no credit c
         and this is your Heroku app  name followed by herokuapp.com.
         So in my case, 'codestar2021.herokuapp.com'  
         and we'll add in localhost too,  so that we can run it locally.
-        Now we can just create our three  directories that we mentioned earlier.  
+
+    - Now we can just create our three  directories that we mentioned earlier.  
         So we're going to create these at the top level,  
         and the directories that we need are going to be  our media, our static and our template folders.
         And we create these on the top  level next to our manage.py file.
-        Now there's just one thing missing  before we can perform our deployment. 
+
+    - Now there's just one thing missing  before we can perform our deployment. 
         Think back to what you learned  in the Hello Django lessons,  
         can you think what it might be? We'll pause  the video for a second and then come back.
         That's right, we need to create a procfile.
@@ -294,7 +308,8 @@ So firstly, let's create a Cloudinary account. It's completely free, no credit c
         And this is a standard that allows Python  services to integrate with web servers.
         Now that's all done let's try  deployment so we'll save our files,  
         add commit and push to our repository.
-        And we're going to use Github  as our deployment method here.  
+
+    - And we're going to use Github  as our deployment method here.  
         So let's go back to our Heroku dashboard  and we can click on the deploy tab.
         And we'll click on Github  here for deployment method,  
         you might need to connect your Github  account, mine is already connected.  
@@ -303,24 +318,166 @@ So firstly, let's create a Cloudinary account. It's completely free, no credit c
         scroll down to the bottom of the page and  click on deploy branch. And I like to watch  
         the deployment happening in the build log too,  so we'll pop that out. Now your build log might  
         look a little bit different to mine but as  long as it deploys that's absolutely fine.
+
         Okay, so it says that our app  has been deployed successfully.
         So let's click on open app to view it and we  can see that it's been deployed successfully.
         Now this might seem like an awful lot of  effort to get a minimal application deployed  
         but there are a couple of very  good reasons why we've done this.
+
         Firstly, we have a solid platform to build on,  
         all of our main development dependencies are  installed and we know that they're working.
+
         And secondly, a big mistake  that many students often make  
         is thinking that deploying to Heroku is  as quick as deploying to Github pages. 
         As a result, they often leave it to the  last minute which results in a lot of panic.  
         Early deployment saves a huge amount of stress  later on. Now though, we're ready to actually  
         start writing some code and getting our blog app  off the ground, we'll do that in our next video.
 
+# __Creating Our Database Diagram__
+Now that our skeleton project is successfully  deployed, we can have a think about our database models.
+Remember how Django works - it is  a MVT or Model, View, Template framework. 
 
+The model is our database and structure, the  templates are the HTML pages that our user sees,  
+and the views are the glue that holds  the two of them together - the logic  
+in our code that reads from or updates the  model and then updates what the user sees.
 
+    - In this video, we’re concerned with the model.  So how can we define a database model for our blog posts?
+        First, let’s move three of our  User Stories to In Progress. We’re going to  
+        deal with the admin side first, so we'll move  the ability to create and manage posts, the  
+        ability to create a draft post, and the comment  approval function into our in progress column. 
+        And we're away!
+        Before creating our database models, let's just take a look at a sample post and see what we can get from it.
+        First, as you can see we  have a title. Then an author  
+        an updated date, we have our main content and the  number of likes. What kinds of fields are these?  
+        Well let's create an entity relationship diagram  so that we can understand our database structure.
+        Title is easy it's a character field,  which will have a length of 200 characters  
+        which is ample for a title  and it needs to be unique.
+        We don't want to have multiple  blog posts with the same title.
+        What about our author? Well, this is going  to get the author's name from our built-in  
+        user table. So what kind of field do you think  it should be? Pick from the following list and  
+        then see if you are right. You can pause  the video if you want to think about it.
+        Is it a many-to-one relationship, a one-to-many  relationship or a many-to-many relationship?
+        What did you come up with? 
+        Well the correct answer is that  it's a one-to-many relationship. 
+        Why is that? Well one author may write many  blog posts. In Django terminology a one to  
+        many field is called a foreign key field. So  that will be our field type for the author.
+        Our date field then can be automatically  generated. And we'll actually add two - one  
+        for when the post was created and another for  when it was updated. Our blog post content is a  
+        standard Django text field, which is designed  for storing large amounts of text data.  
+        We'll also add our featured image and an  excerpt field which we'll use on the index page.
+        We also have our likes field. Now this is  another field that needs to be in a relationship.  
+        Pause the video again and see if you can pick what  kind of relationship it should be from the list.  
+        Again, is it many-to-one,  one-to-many or many-to-many?
+        Well how did you get on? The correct answer is many-to-many. 
+        Why do we say that? 
+        Well the reason is that many  users can like many blog posts,  
+        at least we hope that's what will happen. So we'll use a many-to-many field here.
+        There are actually two more fields that  we need to add that aren't visible here.
+        One is the "slug" field. Django is  betraying its roots in the publishing  
+        industry here, because a slug in type  setting is an incidental line of type. 
+        In Django, a slug is a label that  can be used as a part of a URL. 
+        So we'll auto-generate a slug from the  title to use as our URL for each post,  
+        and again this needs to be unique.
+        Finally, we have a status field that says  whether the post is draft or published. 
+        And that's our relationship diagram complete. 
+        In our next video, we'll start building  this into a usable Django model.
 
+# __Creating Our Database Models__
+In our previous video, we  created our database diagram.
+Now, we'll convert that  into a proper Django model. 
+We'll keep the diagram on the screen  as a reference while we code it out.
 
+    - So let's start building our models.py file now. So we'll go to blog, open up our models.py file,  
+        and first of all we want to import the user model. So underneath the first import, we'll add 
+        "from Django.contrib.auth.models import User". Then we want to import our Cloudinary field  
+        for the featured image, so we'll  do that from Cloudinary models.
+        Then we'll create a tuple for  our status which is going to  
+        be a zero or a one for whether  the post is draft or published. 
+        So "STATUS = " zero as draft and  then we'll have one as published.
+        Okay, so now that that's in there let's take our  E-R-D and convert this into a usable Django model.
+        So the first thing that we'll  do then, is create our class  
+        which is going to be the class of Post. And  that's going to inherit from our standard model. 
+        So let's do the title we said that  this was going to be a character field,  
+        it's going to have the max length of 200  characters, and it needs to be unique.
+        We'll do the slug next because that comes  straight under the title and that's going  
+        to be again - models, this is a slug field, it's  a special type of field that Django has for slugs.
+        Again, max lens 200 which will be  ample and it needs to be unique.  
+        Next, we'll do our author and remember that  we said that this needed to be a foreign key  
+        relationship, it's a one-to-many  relationship from our user model.
+        So that will be based on our user model,  we'll have on delete "models.cascade"  
+        and we'll set a related name  which is going to be blog post.
+        Then we'll do our updated on date. This is just  going to be a simple Django model date time field.
+        And it will automatically default  to the current date and time. 
+        Our content is as we said a standard text field.
+        Then our featured image is  going to be a Cloudinary field.
+        We give it a type, which is image. And we'll  also set a placeholder here which is just  
+        going to be set to placeholder, we'll come  to that when we get into doing our templates.
+        The excerpt which will be  visible on our index page  
+        is just going to be a standard text field again.
+        We'll allow it to be blank.
+        Then our "created_on". Again, this will  just be a standard date time field.
+        And that will automatically default to  the current time when it's been created.
+        And then we'll do our status. Which is going to  be an integer field because it can be zero or one.  
+        The choices are going to be our  status that we created above  
+        and the default is going to be  zero so the default will be draft.
+        And then finally we have our likes. Which as we  said is a many-to-many field, this is also going  
+        to pull from our user. Related name is going  to be blog likes and it can also be blank.
+        Now you might be wondering here what on earth is this "on_delete=models.CASCADE" that we have in our foreign key?
+        Well it simply means that if the one record  
+        in our one-to-many relationship is deleted,  then the related records will be deleted too.
+        In other words, if we delete our user  we'll also delete their blog posts.
+        Now we'll just add a couple of extra methods  to our model which can be viewed as helpers.  
+        We're going to add the meta class, you can check  the Django documentation for all of these options  
+        but the ones that I've used most often are to  do here with ordering, indexing and constraints.
+        In this instance, we're going to order  our posts on the created_on field,  
+        now the minus sign means to use descending order.
+        Then we're going to use this string method  here, it's good practice to put that into your projects.
+        The Django documentation says it's a  magic method that returns a string representation  
+        of an object and it says you should define  it because the default isn't helpful at all.
+        Finally, we have a helper method to return  the total number of likes on a post.
 
+    - Now that our post model is complete  let's add our comment model.
+        Remember that these models can be  likened to tables in the database,  
+        so we have a separate table  for posts and one for comments.
+        In reality Django will automatically  create some extra helper tables for us  
+        to manage our foreign key relationships though.
+        So now it's time to create the comment  model, and you probably know what's coming.
+        Take a look at the diagram for yourself  and then see if you can create the model. 
+        Pause the video, it should take you  about 10 minutes and see how you do.
+        How did you get on?
+        Our comment model contains very few surprises. 
+        The post field is a one-to-many relationship  because one post can have many comments.
+        And we have an approved field, which defaults  to false. The others are all fairly standard.  
+        As you can see, I've added the helpers  too. This time we've ordered by created_on  
+        in ascending order, so the oldest  comments will be listed first  
+        which makes sense since we  want this to be a conversation.
 
+    - So that's our models created, we can now save  our file and go down to the terminal window  
+        because we need to migrate  these changes into our database.
+        So you remember the commands how to do this:
+        it's "python3 manage.py makemigrations".
+
+        And then we can type "python3 manage.py migrate".
+
+In this video, then we've seen how to go from  a diagram to fully functioning database models.  
+We've built models for our posts and our comments  
+which are two custom models that  we're going to use in this project.
+Finally, we migrated those changes to the database.  Every time you change the model or you need to  
+create a new one you'll need to run the make  migrations and the migrate commands again.
+In our next video, we'll build  the admin panel so that we can  
+create new posts and manage comments and users.
+
+__NOTE__
+
+        If you're concerned that you may have made a typing error, then you can do a dry run of your migrations before you apply them to your database. The command to do this is:
+
+        python3 manage.py makemigrations --dry-run
+
+        This will print out the migrations, so you can check that everything is correct before proceeding.
+
+# __--------------  MAKE SURE YOU CHECK SPELLINGS BEFORE MIGRATING  ------------__
+
+# __next section__
 
 
 
