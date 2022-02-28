@@ -130,28 +130,39 @@ Please run the following command in the terminal to fix it:
 
 unset PGHOSTADDR
 
-    - In our previous video, we got our skeleton project  up and running locally. Now, we want to prepare it  
+In our previous video, we got our skeleton project  up and running locally. Now, we want to prepare it  
         for deployment to Heroku. In this video, we’re into the third step of our new project checklist.
         Which is setting the project up to use Cloudinary and PostgreSQL.
         But, there are another four steps  involved when deploying an app to Heroku.
-        Firstly, create the Heroku app. Secondly, attach the database.
-        Thirdly, prepare our environment and settings.py file. And then fourthly, get our static and media files stored on Cloudinary,
+
+Firstly, create the Heroku app. 
+
+Secondly, attach the database.
+
+Thirdly, prepare our environment and settings.py file.
+
+And then fourthly, get our static and media files stored on Cloudinary,
         which we’ll go into  in more detail in the next video.
-        First things first, let’s create a new app  on Heroku. By just clicking on the New button  
+
+    - First things first, let’s create a new app  on Heroku. By just clicking on the New button  
         on the Heroku Dashboard and then on “Create  New App”. Give your app a name, and then choose  
         the location nearest to you. I’m going to call  this codestar2021 and choose Europe as my location.
-        Now that my app is provisioned,  I can just click on the Resources tab  
-        and then add a database. All we need to do in the addons box is just search for Postgres then we can add Heroku Postgres to our project.
+
+    - Now that my app is provisioned,  I can just click on the Resources tab  
+        and then add a database. All we need to do in the addons box is just search for Postgres then we can add Heroku 
+        Postgres to our project.
         Now that our database is added we can go back to our Settings tab.
         And click on Reveal Config Vars.
         And this will give us our DATABASE_URL, this is the connection to our Postgres database.
         So just click in the box, copy the string and we'll add this to our project.
         So that’s it for Heroku for now,  let's go back to our code.
-        And what we're just going to do, in the same directory as our manage.py file, we're going to create a file called env.py.  
+
+    - And what we're just going to do, in the same directory as our manage.py file, we're going to create a file called env.py.  
         We’re going to use this to store our secret environment  variables while we're in development.
         We don’t want these to be publicly visible in GitHub, so we’re just going too use this here.
         If you're using our student template, then the env.py  is already in the .gitignore file.
         If you're not, make sure you add it.
+
         So in our env.py file, let's  import the operating system library, os.
         And then, we’ll use it to set a couple of  environment variables. So first, we're going to set one called DATABASE_URL.
         And then we can paste in the URL that we just copied from Heroku.
@@ -164,9 +175,11 @@ unset PGHOSTADDR
         Now your secret key can be whatever you  like. So, for me, I’m going to put: 
         "randomSecretKey1881x!" and then some numbers and characters.
         Save this file, and then copy the value that we've given to SECRET_KEY here.  
+
         And we're going to add this to our config vars  on Heroku too.
         So, back at the dashboard, enter config vars, let's type SECRET_KEY paste in our value, and then click add.
-        So now that our env.py file is created, we need  to reference that in our settings.py file.
+
+    - So now that our env.py file is created, we need  to reference that in our settings.py file.
         So let's just do a few imports. Back at the top of our settings.py file.
         Just under the first import there.
         Let's import os again.
@@ -177,9 +190,11 @@ unset PGHOSTADDR
         Now our env.py file won’t exist in production since  it’s automatically in the .gitignore file.  
         We don’t want our application  throwing an error if it can’t find it,  
         so this little conditional  import prevents this error.
+
         Now, in our secret key  section a little further down,  
         remove the insecure key and add  in our environment variable:
         os.environ.get('SECRET_KEY')
+
         Now that that's done, let’s wire up our Postgres Database. This is where our Database URL library  
         comes in - and the DATABASE_URL  environment variable that we set.
         So scroll down in your settings.py file  for the DATABASES section.  
@@ -191,6 +206,7 @@ unset PGHOSTADDR
         And the value for this will be "dj_database_url.parse"
         And then inside the brackets we're going to get our database url environment variable,
         that's set in our env.py file and also in Heroku in our config vars.
+
         And that's it! We’re now using our Heroku database as the  backend. Don’t believe me? Well, try it for yourself.
         Go to the terminal window and  perform the migration again.  
         You remember the migrate command from the  previous videos? Well, pause the video and run it again.
@@ -207,8 +223,97 @@ unset PGHOSTADDR
         and then we’re ready to deploy.  We’ll do that in the next video.  
         In the meantime, feel free to add,  commit and push your project to GitHub.
 
+# Our First Deployment - part 2
+In our previous video, we  outlined the four steps to  
+        getting our skeleton project deployed to Heroku.
+        Firstly, create the Heroku app. Secondly, attach the database. 
+        Thirdly, prepare our environment  and settings.py files. 
+        And then, finally, get our static  and media files start on Cloudinary.
+        We've completed the first three steps and in  this video we'll create our Cloudinary account,  
+        link our project and try deployment.
 
+So firstly, let's create a Cloudinary account. It's completely free, no credit card is required. 
+        And we've put the steps to do this below the video  
 
+    - when you get to your dashboard which  contains your API authentication information.
+        Just click on the copy to clipboard  link next to API environment variable  
+        we'll use this to connect our app to Cloudinary. Now we can go back to our ide and in our env.py  
+        file, we'll add another line at the bottom. "os.environ" 
+        We'll set the CLOUDINARY_URL, and then we  can paste in the value that we just copied.  
+        It's not quite right though, we need to remove  "CLOUDINARY_URL =" from the beginning,  
+        and then we'll copy this value again, so  that we can paste it into Heroku as well.
+        So back to our Heroku dashboard we'll add a new  config variable the same name CLOUDINARY_URL.  
+        And we'll paste in the value that we just  copied. Now we also just need to add in  
+        one more temporary environment variable  too, which is "disable_collect static".
+        And we'll set that to one this is just to get  our skeleton project deploying because we don't  
+        actually have any static files yet, we'll remove  this when it comes to deploying our full project.
+        Okay, so back in our settings.py file, let's  go to the installed apps section and add in the  
+        Cloudinary libraries that we installed before.  So "cloudinary_storage" and this needs to go  
+        just above "django.contrib.staticfiles" and then  the regular Cloudinary library can go underneath.
+        Now we just need to tell Django to use  Cloudinary to store our media and static files  
+        so down near the end of our settings.py  file we can add these few lines.
+        First of all, "STATICFILES_STORAGE" and in here we can tell it to use,
+        "Cloudinary_storage.storage.StaticHashedCloudinaryStorage",
+        so this is coming from the  library that we installed above,
+        and put into our installed apps section.
+        We also need to set our static files directories,  
+        this is going to be a list but it's only going  to contain one item which is "os.path.join"  
+        our base directory which is defined  at the top of our settings py file,  
+        and we're going to connect that to static and  we'll create our static directory in a moment.
+        Then we're just going to set static route, now  
+        we don't use that in this project but  it's good practice to set it anyway.
+        So "os.path.join" base dir static files. We can do very similar now for the media.  
+        Now our media is pictures, things like that, our  static files will be our CSS and our JavaScript.
+        So again, we'll set a media URL and  we'll set the default file storage to  
+        "Cloudinary_storage.storage.MediaCloudinaryStorage".
+        And believe it or not that's all that's  needed to link our app to Cloudinary,  
+        it's actually very simple.
+        Now we also need to tell Django  where our templates will be stored.  
+        So back up to the top of settings.py and under the  base directory let's add in a templates directory.
+        "TEMPLATES_DIR =  os.path.join(BASE_DIR, 'templates')"
+        And now we just need to scroll down midway in  our settings.py file and change the D-I-R-S key,  
+        the dirs key, in our template setting to point  towards our new templates directory variable.
+        Okay, we're almost ready  to do our first deployment. 
+        But before we do, we need to add our Heroku host  name into allowed hosts in our settings.py file,  
+        and this is your Heroku app  name followed by herokuapp.com.
+        So in my case, 'codestar2021.herokuapp.com'  
+        and we'll add in localhost too,  so that we can run it locally.
+        Now we can just create our three  directories that we mentioned earlier.  
+        So we're going to create these at the top level,  
+        and the directories that we need are going to be  our media, our static and our template folders.
+        And we create these on the top  level next to our manage.py file.
+        Now there's just one thing missing  before we can perform our deployment. 
+        Think back to what you learned  in the Hello Django lessons,  
+        can you think what it might be? We'll pause  the video for a second and then come back.
+        That's right, we need to create a procfile.
+        Remember that Heroku needs a procfile  so that it knows how to run our project.
+        So we're going to create one here. Remember the capital P on Procfile. 
+        Now procfile is short for process file. So  the first part, web, tells Heroku that this  
+        is a process that should accept http traffic. The next part is Gunicon which is the server  
+        that we installed earlier, a web services gateway  interface server, wsgi or whiskey for short.  
+        And this is a standard that allows Python  services to integrate with web servers.
+        Now that's all done let's try  deployment so we'll save our files,  
+        add commit and push to our repository.
+        And we're going to use Github  as our deployment method here.  
+        So let's go back to our Heroku dashboard  and we can click on the deploy tab.
+        And we'll click on Github  here for deployment method,  
+        you might need to connect your Github  account, mine is already connected.  
+        And then search for your blog repo,  mine is just called Django blog.
+        I have two here so it's the second one that  I need. Okay, and then all we need to do is  
+        scroll down to the bottom of the page and  click on deploy branch. And I like to watch  
+        the deployment happening in the build log too,  so we'll pop that out. Now your build log might  
+        look a little bit different to mine but as  long as it deploys that's absolutely fine.
+        Okay, so it says that our app  has been deployed successfully.
+        So let's click on open app to view it and we  can see that it's been deployed successfully.
+        Now this might seem like an awful lot of  effort to get a minimal application deployed  
+        but there are a couple of very  good reasons why we've done this.
+        Firstly, we have a solid platform to build on,  
+        all of our main development dependencies are  installed and we know that they're working.
+        And secondly, a big mistake  that many students often make  
+        is thinking that deploying to Heroku is  as quick as deploying to Github pages. 
+        As a result, they often leave it to the  last minute which results in a lot of panic.  
+        Early deployment saves a huge amount of stress  later on. Now though, we're ready to actually  
+        start writing some code and getting our blog app  off the ground, we'll do that in our next video.
 
 
 
