@@ -477,9 +477,215 @@ __NOTE__
 
 # __--------------  MAKE SURE YOU CHECK SPELLINGS BEFORE MIGRATING  ------------__
 
-# __next section__
+# __Building The Admin Site - part 1__
+WHAT IS IT?    -----    The Django admin panel 
+WHAT DOES IT DO?   ----  Allows a superuser to administer the site 
+HOW DO YOU USE IT?  ----  Log in to the /admin URL with a superuser account
 
+A blog is not much use unless we  have a way to write posts.
+Happily, Django comes with a built-in admin  panel that we can use for this purpose.
+In this video, we’re going to set up our  admin panel to interact with our Posts  
+and Comments models. 
 
+    - We’ll start,  though, by creating a superuser.
+        Creating a super user sounds much more exciting  than it actually is. All we're doing is creating  
+        a supervisor or administrator user who can  log into Django's built-in admin panel.
+        From the terminal window then type:
+        "python3 manage.py createsuperuser"
+
+    - Now you'll be prompted for a  username, which can be anything. 
+        I'm going to just use admin, an email address  which doesn't need to be real, and a password.  
+        And when you type this password it won't be  echoed back to the screen, so you won't be able  
+        to see what you're typing. Once we've confirmed  the password then, our superuser is created. 
+
+    - So let's test it we'll run our project  and open it up in a browser window. 
+        So "python3 manage.py run server". So we'll open that in a browser window.
+        And then add /admin to the end of the URL.
+        We'll get our login panel here and  we can type in the credentials that  
+        we just created and this will allow us to log in.
+        Now at the moment - there's  not much. There's no way to  
+        create a blog post and there's  no way to moderate the comments.
+
+    - So let's add the post model to our admin panel. 
+        This is very very simple all we need to do  is open up the admin.py file in our editor.
+        And then at the top we just import our post model. So "from .models import Post" with a capital p,  
+        just delete that and then we can just  type "admin.site.register(Post)".
+
+    - Let's save that and then go back  to our admin panel once again. 
+        And when we refresh the page,
+        we can see that we now have  the option of adding posts. 
+        When I click on that, we can see that  we currently don't have any blog posts  
+        but I can click add post here in the corner.
+        And now we can see that we have  everything we need to add a blog post.
+        But there are a few more  things that we can tweak here. 
+
+    - The first thing is that we want  to use a WYSIWYG or "what you  
+        see is what you get" editor for the post.
+        We're going to use a handy  library called Summernote. 
+        I've put a link to the Summernote  project below the video,  
+        so you can read the documentation if  you wish so let's go back to our editor.
+        Go to the terminal window we'll just stop the  server clear it and we'll install it by typing:
+        -------------     "pip3 install django-summernote"    -----------------
+
+    - Now when this is installed, we'll need  to add this to our requirements.txt file,  
+        so that it'll be installed automatically  when we deploy again to Heroku. I know you  
+        can remember how to do this, so I'm going to let  you pause the video and do it before continuing. 
+        ------------      "pip3 freeze -- local > requirements.txt"  --------------
+
+    - Now that's done, we need to add SummerNote  to our list of installed apps in settings.py.
+        Now you can put this wherever you like,  
+        but I like to leave user created apps  until the end of the installed app setting.
+        So I'm just going to install it here before blog  
+        so it's 'django_summernote'. I know  that we installed it with a hyphen  
+        and it has an underscore now but that's  often the way with Django libraries.
+
+    - Now let’s set up Summernote’s URLs in our urls.py  file. In our import here 'from django.urls'  
+        just add on comma "include" and the "include"  method allows us to include URLs from other files.
+        So then we can add our path. So it's going to be
+        "path('summernote/',  include('django_summernote.urls')),"
+
+        And that will register our Summernote urls here  with our urls.py file. 
+        
+    - Now all we need to do is tell our admin panel which field  we want to use Summernote for.
+        So basically we're going to  say that our content field  
+        which is stored as a text field in the  database is going to be a Summernote field. 
+        And this little piece of code in  our admin.py file will add it.
+        So we're just going to say:
+        "from django_summernote.admin  import SummernoteModelAdmin".
+
+        And then we'll create a new class  we're going to call this PostAdmin.  
+        That's going to inherit from  SummernoteModelAdmin that we've just imported.
+        And then we're just going to say: "summernote_fields = ('content',)".
+
+        So that's saying that our  content field, our blog content,  
+        which we know is a Django text field,  we want to use summer note for this.
+        We then need to register  post admin to our admin site. 
+        Now instead of adding it to  this admin.site.register method,  
+        I'm going to delete that line entirely.
+        And instead we're going to add  a decorator above our class. 
+        Which is "@admin.register(Post)" 
+
+        And this will register both our post model  and the post admin class with our admin site.
+        Now you may be wondering why we're adding  this decorator and not just putting it  
+        in the admin.site.register  method at the bottom of the file.
+        The reason is that for some reason  the admin.site.register method  
+        only allows us to pass in two  arguments so it quickly gets full.
+        The decorator is also a more Pythonic  way of handling the registration.
+        So that's what we're going to use.
+
+    - Okay save this, and before checking the  admin page again, we need to migrate.
+        Now you don't need to make the  migrations because we haven't  
+        changed the database format,  we've just installed more apps.
+        So pause the video, run the  migrate command and then come back.
+        ---------------     "python3 manage.py migrate"  -----------------
+
+        Okay now our migrations are made  we can run the server again.
+        "python3 manage.py run server"
+        And now, when we go back and refresh our admin panel.
+
+We can see here that our content has now changed to a full  
+featured editor, so I'm just going to  add a blog post for testing purposes.
+Now even after adding this post, we still  have much to do in order to get our admin  
+site as we want. I'm just going to add in the  excerpt, set it to published, and save this.
+In our next video, we're going to carry on tweaking our admin site so that it's even more user-friendly.
+
+# __Building The Admin Site - part 2__
+WHAT IS IT?  ----   The Django admin panel 
+WHAT DOES IT DO?  ----  Allows a superuser to administer the site 
+HOW DO YOU USE IT?  ----  Log in to the /admin URL with a superuser account
+
+In our previous video, we got  our basic post admin working,  
+but we're not finished  tweaking our admin site yet. 
+There's much more left to add. 
+
+    - So let's go back to our admin.py file.
+        When we enter the post title, we want the  slug field to be generated automatically.  
+        To do that, we'll use the  prepopulated_fields property.  
+        Which was specifically designed  for generating slug fields.
+        It calls a bit of JavaScript that formats  and populates the slug field for us,   
+        so that we don't have to worry about it. To  use it, we pass in a dictionary that maps  
+        the field names to the fields that we want to  populate from. In our case, we want to populate  
+        the slug field from the title field. 
+        
+        So above  my summernote_fields property here, I'm going  
+        to add "prepopulated_fields =" then my Python  dictionary, we're populating slug from title.
+        Now when we save this and refresh the admin  page. We go back as well to add a new blog post.
+        Then you can see that as I type  the title, the slug field is  
+        automatically generated. This  will form part of our URL  
+        so an individual blog posts URL will be  our project's base URL, plus this slug.
+
+    - And we can add a lot of configuration to  the admin panel to make our life easier.  
+        For example, if I add "list_filter = status,  'created_on' " then save my file refresh the admin  
+        page once again. Then we can see, that I have  now this cool filter box on the right hand side  
+        that allows me to filter the posts by  their status or by the created date.
+        Isn't that cool? One line of code adds all of this  
+        useful functionality, well that's the  batteries included nature of Django.
+
+    - Are you ready for more?
+        Well I have a little challenge for you.  
+        I've added two links below the video to different  sections of the Django admin panel documentation. 
+        Your challenge is to add two lines  of code one will be using the list  
+        display property to customize what we  see in the list view of the admin panel. 
+        I'd like you to list the title, slug,  status and created_on fields; please.
+        The second is to add search fields  that search either the title  
+        or the content which will  help us to find a post easily.
+        Are you ready?
+        We'll pause the video for about five minutes.  Read the documentation and then add the two  
+        lines of code to our post admin class. I'll see you on the other side.
+        Welcome back! Does your admin  page now look like this?  
+        If so, well done! If not, don't worry  
+        just compare your code with mine. Your post admin class should now look like this.
+
+    - So finally, in this video I want  to add the comment admin model.
+        Now we're going to start it and finish it  together but I'd like you to do the middle bit.
+        First then, let's go up to the top of our  file and import our comment model from models. 
+        So just after our post import  here we'll also import comment.
+
+        As you've probably figured  we need to add a new class  
+        but before that, we're going to  add our admin.register decorator.
+        So "@admin.register(Comment)", and then we can create our class  
+        that inherits from admin.ModelAdmin,  which is a built-in Django class.
+        And now it's your turn. 
+        
+        - We want  to customize our admin panel view so that the list display shows the name, the body, 
+        the post it was made on, the created  date, and whether the comment is approved or not.
+
+        We also want the list filter to show the  option of filtering by approved and created on.  
+
+        And finally, we want the search fields  to be name, email address, and body.
+
+        I'll give you 10 minutes to create this.  
+        If you're stuck, then use our  post admin class for inspiration.  
+        Afterward, I'll show you what I wrote and then  we'll add the last bit of our class together.
+        Welcome back, so here's how my class looks. Now if you save your changes and visit the  
+        admin panel again, then you should see  that you can now manage the comments.
+
+    - So the last thing that I want to add here is an  action that allows us to approve the comment. 
+        Now remember, that in our model the  approved field is set to false by default. 
+        This ensures that all comments  need to be manually approved by an  
+        admin before they appear on the site. 
+        So now we want to add the  approval action to the admin site.
+        To do this, we use another handy  built-in feature of the admin classes,  
+        which is actions. The actions method allows you  
+        to specify different actions that can be  performed from the action drop-down box.
+        Now the default action is just  to delete the selected items  
+        but we want to add an approved comment section  too. 
+        
+    -  So to do this, at the bottom of our class  
+        we'll add, "actions = ['approve_comments']". Now actions takes a list of function names as  
+        an argument so you could define more  than one action here if you wanted.
+        Now, beneath that, we'll create  our approve_comments method.
+        Now as you remember, the approved field is a  boolean field that's set to false by default,  
+        to approve the comment we just need to  set that field to true. So we'll add our  
+        method called approve_comments which accept  self, request, and queryset as parameters.
+        Don't worry about those too much, queryset is  the one that we'll use to update our record.  
+        Our function then, is a one-liner we just  call the update method on the query set and  
+        change our approved field to true and that's it! Our post admin and comments admin is now complete. 
+        So now let's review our user stories.  
+        Well, we've been able to add the ability to  manage posts, so we can move that to done.   
+        We can create draft posts, so that's done. And we  can also approve comments, so that's done too.
+        In our next video, we're going  to start building our blog views  
+        and we'll move more of our  user stories to in progress.
 
 
 
