@@ -687,7 +687,83 @@ There's much more left to add.
         In our next video, we're going  to start building our blog views  
         and we'll move more of our  user stories to in progress.
 
+# __View Creation Checklist__
+WHAT IS IT? ---- Our first view 
+WHAT DOES IT DO? ---- Allows us to view our blog post list 
+HOW DO YOU USE IT?  ---- Follow the three step process to creating new views
 
+    - In our previous two videos, we set up our blog  admin page. Remember, though, that Django is an  
+        MVT-based framework - Model, View, and Template. We’ve set up our database models for posts and  
+        comments, now it’s time to create  our first view and template.
+        We're going to address another  three of our user stories. 
+        So let's move pagination,  
+        and the ability to view a post list, 
+        and the ability to view likes  to our in progress column. 
+        It gives you a great sense of satisfaction  moving things across the columns like this.
+        So the models for our blog  lived in the appropriately named  
+        models.py file it shouldn't be  too much of a stretch of the  
+        imagination then to realize that our  views will live in the views.py file.
+        Now in the previous videos, you learned  about Django's function based views  
+        where you defined each view  as a standard function.
+        For the blog, however, we're going  to use class-based views instead.  
+        Now before you accuse me of making your life  harder, there is a good reason for doing this.
+        Class-based views allow us to make code that's  reusable - one view can inherit from another,  
+        which is not possible with  standard function-based views.
+        That means we can make use of some of  the cool built-in features with Django,  
+        such as generic views, which is  what we're going to use here.
+        Generic views is just a fancy way of saying  that you don't need to write very much code  
+        and Django will handle it all for you.
+        They're built into Django as part of  its batteries included philosophy,  
+        so we might as well make good use of them.
+        Each time we create a new view,  we need to do three things: 
+        Firstly, create the view code. Secondly, create the view template. 
+        And thirdly, connect up our URLs file.
+        So let's start with step  one, create the view code.  
+        And thanks to our generic view,  this is going to be extremely easy.
+        So in our blog directory we're  going to open up our views.py file.
+        And the first thing that we want to  do is to import the generic library.
+        So right at the top "from  django.views import generic".
+        I'm just going to delete this comment here.  
+        And then we're going to import our  post model that will base our views on.
+        So "from .models import Post".
+        And now we can create our class, this is going to be
+        a class called PostList and we're going  to base this on the generic list view model.
+        Now we're going to tell the class  that it's inheriting from this,  
+        if you want to know more about these  generic views and how they work,  
+        then I've put a link to the relevant  Django documentation below the video.
+        Inside the class we're telling  it to use post as its model  
+        and now we can use more of the built-in methods  to quickly and easily render our list of posts.
+        So we're going to supply the queryset here,  which will be the contents of our post table.  
+        We're going to filter this by status. Remember  that our status field can be set to either 0  
+        for draft, or one for published we want only  publish posts to be visible to the users,  
+        so we'll filter our posts by status equals one.
+        We're then going to order them by created_on  in descending order, like we've done before.  
+        The template name is the html file that our  view will render what about paginate_by?
+        Well list view provides a built-in  way to paginate the displayed list  
+        and paginate just means separate into pages.  
+        By setting paginate_by to six, we're limiting the  number of posts that can appear on the front page,  
+        if there are more than six then Django  will automatically add page navigation.
+        So that's very simple, that's our  view created for the post list.
+        Now we need to create our  templates and wire up the URLs  
+        we've provided a starter template  for you at the repo below the video.
+        So bring the html files over and drop them into  the templates directory you created earlier.  
+        Don't bring the account  directory over at the moment.
+        What we'll do inside our static directory  is create a new folder called css,  
+        and then we can copy our style.css file into that.
+        Let's just briefly consider that the files that we  uploaded, I'm not going to go through everything  
+        in the css file, if you want to take a look  at it after the video then please feel free.  
+        But there's absolutely nothing in  here that you don't already know.  
+        You can see then that we  have a file called base.html.
+        Now you haven't encountered this in Django yet,  but the principle is exactly the same as in Flask.  
+        We have a base template which loads Bootstrap  and our fonts. It also contains the navigation  
+        here and if we scroll down you can see  that it contains our footer as well.
+        Now it also contains just like  Flask, our block content tags,  
+        which is where the code from our  other templates will be injected.
+        When we move into our index.html  file, you can see the same again,  
+        that it follows the same  conventions we used with Flask.
+        We're extending base.html and  we have our block content tags.  
+        Apart from a bit of Bootstrap at the  moment there's nothing else here. 
+        In our next video, we're going to add content to  this index.html file and wire up our first URL.
 
 
 
