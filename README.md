@@ -692,7 +692,7 @@ WHAT IS IT? ---- Our first view
 WHAT DOES IT DO? ---- Allows us to view our blog post list 
 HOW DO YOU USE IT?  ---- Follow the three step process to creating new views
 
-    - In our previous two videos, we set up our blog  admin page. Remember, though, that Django is an  
+In our previous two videos, we set up our blog  admin page. Remember, though, that Django is an  
         MVT-based framework - Model, View, and Template. We’ve set up our database models for posts and  
         comments, now it’s time to create  our first view and template.
         We're going to address another  three of our user stories. 
@@ -703,6 +703,7 @@ HOW DO YOU USE IT?  ---- Follow the three step process to creating new views
         So the models for our blog  lived in the appropriately named  
         models.py file it shouldn't be  too much of a stretch of the  
         imagination then to realize that our  views will live in the views.py file.
+#### __Class Based Views__
         Now in the previous videos, you learned  about Django's function based views  
         where you defined each view  as a standard function.
         For the blog, however, we're going  to use class-based views instead.  
@@ -716,9 +717,11 @@ HOW DO YOU USE IT?  ---- Follow the three step process to creating new views
         They're built into Django as part of  its batteries included philosophy,  
         so we might as well make good use of them.
         Each time we create a new view,  we need to do three things: 
-        Firstly, create the view code. Secondly, create the view template. 
-        And thirdly, connect up our URLs file.
-        So let's start with step  one, create the view code.  
+        - Firstly, create the view code. 
+        - Secondly, create the view template. 
+        - And thirdly, connect up our URLs file.
+
+    - So let's start with step  one, create the view code.  
         And thanks to our generic view,  this is going to be extremely easy.
         So in our blog directory we're  going to open up our views.py file.
         And the first thing that we want to  do is to import the generic library.
@@ -726,8 +729,10 @@ HOW DO YOU USE IT?  ---- Follow the three step process to creating new views
         I'm just going to delete this comment here.  
         And then we're going to import our  post model that will base our views on.
         So "from .models import Post".
-        And now we can create our class, this is going to be
+        
+        - And now we can create our class, this is going to be
         a class called PostList and we're going  to base this on the generic list view model.
+
         Now we're going to tell the class  that it's inheriting from this,  
         if you want to know more about these  generic views and how they work,  
         then I've put a link to the relevant  Django documentation below the video.
@@ -744,34 +749,252 @@ HOW DO YOU USE IT?  ---- Follow the three step process to creating new views
         By setting paginate_by to six, we're limiting the  number of posts that can appear on the front page,  
         if there are more than six then Django  will automatically add page navigation.
         So that's very simple, that's our  view created for the post list.
-        Now we need to create our  templates and wire up the URLs  
+
+    - Now we need to create our  templates and wire up the URLs  
         we've provided a starter template  for you at the repo below the video.
         So bring the html files over and drop them into  the templates directory you created earlier.  
         Don't bring the account  directory over at the moment.
-        What we'll do inside our static directory  is create a new folder called css,  
+
+    - What we'll do inside our static directory  is create a new folder called css,  
         and then we can copy our style.css file into that.
-        Let's just briefly consider that the files that we  uploaded, I'm not going to go through everything  
-        in the css file, if you want to take a look  at it after the video then please feel free.  
-        But there's absolutely nothing in  here that you don't already know.  
-        You can see then that we  have a file called base.html.
-        Now you haven't encountered this in Django yet,  but the principle is exactly the same as in Flask.  
-        We have a base template which loads Bootstrap  and our fonts. It also contains the navigation  
-        here and if we scroll down you can see  that it contains our footer as well.
-        Now it also contains just like  Flask, our block content tags,  
-        which is where the code from our  other templates will be injected.
-        When we move into our index.html  file, you can see the same again,  
-        that it follows the same  conventions we used with Flask.
-        We're extending base.html and  we have our block content tags.  
-        Apart from a bit of Bootstrap at the  moment there's nothing else here. 
-        In our next video, we're going to add content to  this index.html file and wire up our first URL.
+
+Let's just briefly consider that the files that we  uploaded, I'm not going to go through everything  
+in the css file, if you want to take a look  at it after the video then please feel free.  
+But there's absolutely nothing in  here that you don't already know.  
+You can see then that we  have a file called base.html.
+Now you haven't encountered this in Django yet,  but the principle is exactly the same as in Flask.  
+We have a base template which loads Bootstrap  and our fonts. It also contains the navigation  
+here and if we scroll down you can see  that it contains our footer as well.
+Now it also contains just like  Flask, our block content tags,  
+which is where the code from our  other templates will be injected.
+When we move into our index.html  file, you can see the same again,  
+that it follows the same  conventions we used with Flask.
+We're extending base.html and  we have our block content tags.  
+Apart from a bit of Bootstrap at the  moment there's nothing else here. 
+In our next video, we're going to add content to  this index.html file and wire up our first URL.
+
+# __Creating Our First View__
+WHAT IS IT? ---- Our first view
+WHAT DOES IT DO? ---- Allows us to view our blog post list 
+HOW DO YOU USE IT? ---- Follow the three step process to creating new views
+
+In our previous video, we completed step one  of our checklist and we built the view code.
+In this video, we'll finish step two to create  
+the template and we'll also do  step three by creating the URL.
+At the end of this, you'll be able to open up your  
+site and see the temporary  blog post that you created.
+We're going to use some advanced features of the  
+Django Templating language in  order to format our post list.
+
+    - First, inside our Bootstrap row  here, the blog entries column row.
+
+    - Let's create a for loop to iterate through  
+        the list of posts that will  be passed in from our view.
+        So {% for post in post_list %} {% endfor %}
+        I find it best to do these both at the  same time so that I don't get confused.
+        We want our posts to display in rows of three.  
+        After six posts, we'll paginate them. So we're  going to use the built-in loop counter to close  
+        the existing row div, and add a new one  after three posts have been displayed.
+        So {% if forloop.counter|divisibleby:3 %}
+        then we're going to close the row div,  we're going to open a new row div.
+        Just delete these, it's auto creating  them thanks to the autocomplete.
+        And then, we can end {% endif %} here.
+
+    - So Django has a built-in  counter method on our for loop,  
+        when it's evenly divisible by three, then we're  going to close our row class and add a new one. 
+        And this will be pushed right down to the  
+        end of our for loop so that we  don't close the row too early.
+        Now up at the top of our for loop, I'm  going to paste in some Bootstrap code here.
+        And you can pause the video for a couple of  minutes if you just want to copy this in. 
+
+        Effectively, all I'm doing is creating a  column and I'm also then creating a card. 
+        And everything is going to live inside our card  body which is going to contain the post overview.
+        So let's start adding that content  now, beginning with the featured image.
+        Okay I'm just going to scroll over a little  bit here so we can see what's going on.
+        So if the word placeholder is found in the URL,  remember that's our default if we don't supply an image.
+        Then, we'll assume that there is no featured image, so we'll just load a default placeholder image.
+        You can use the same address  as we have here, I'll put it below the video.
+        Otherwise, we'll use the image that we've uploaded
+        and we'll do that using  the double curly bracket notation.
+
+        Remember that the curly bracket followed by  the percent sign indicates a control statement.
+        Whereas, double curly braces  inserts the content into the html.
+
+        So here we're inserting our  URL from our featured image.
+        After the end if tag we'll just add our  image flash div with the author details.
+        And underneath that I'm going to  paste in our post title and excerpt.
+        Now leave the link in the href just at our # sign there for now we'll return to that a little bit later.
+        So there's nothing too surprising here, we're  just formatting the various parts of our post overview.
+        Now I'll just put in our horizontal  rule that's going to go underneath the link.
+        And a little bit of Font Awesome  code here as well, to display  
+        our heart sign and then the number of likes.
+        So that completes the main post list display. 
+        The last thing we want to do in this  template is to add the pagination code.  
+        When we have more than six posts on our blog,  we want them to appear on an extra page.  
+        Both the Django list view and Bootstrap  provide easy pagination functionality.  
+        So before the very last closing  div tag, just insert this code.
+        Okay I'm just going to add in a line break here  so that you can see it a little bit clearer.  
+        So list view provides the is_paginated boolean,  
+        so if that's set, we'll display these  navigation buttons at the bottom of the page.
+
+This then concludes building our  first view, however it won't work yet. <br>
+Remember our list at the beginning?<br>
+Create the view code, <br>
+create the view  template,<br> 
+connect up our URLs file.<br>
+
+So we've done the first two, but  now we need to wire up our URLs. <br>
+
+    - This is a straightforward process so first create  a file in the blog directory called urls.py.
+        And then we're going to import  our views "import path",
+        because we need that from django.urls and  then create a URL pattern for our home page.  
+        This is similar to what you've done  before so "urlpatterns =", this is a list.
+        So we'll supply our path, we're  then going to just supply a blank  
+        path because that indicates that  it's our default, our home page.
+        ("", views.PostList.as_view(), name="home"),
+        Now this is similar to what you've done before,  but because we're using class-based views we need  
+        to add the as_view method on the end of post list.  So it's going to render this class as a view.
+
+    - Now we just need to import these  URLs in our main Codestar URLs file.
+        So open that up from the Codestar directory,  
+        after our Summernote path we can then add  in a blank path indicating our home page.  
+        We'll include our blog directory dot URLs file, 
+        and we'll give this the name of "blog_urls".
+
+Now when we save all of these files, and run our project...
+Then we can see when we click on view site,  
+that everything is rendering  and our test post is visible.
+In our next video, we're going to do the same  process again for our post detail display.
+But I'm going to take a more hands-off approach  in the next video, and let you do a lot of the building.
+So go back over the code in this  video just to make sure you have it right.  
+And then I'll see you in our next one  when we build our post detail view.
 
 
+Default image URL is: https://codeinstitute.s3.amazonaws.com/fullstack/blog/default.jpg
+
+# __The Post Detail View - part 1__
+WHAT IS IT? ---- The post detail view 
+WHAT DOES IT DO? ---- Allows us to view the content of our blog post 
+HOW DO YOU USE IT? ---- Follow the three step process to creating new views
+
+        You now know the basics of adding views to Django.
+        So in these next two videos,  I'm going to set you off,  
+        and then ask you to pause  it, to add what we'll need.
+        We’re going to build the post detail view. When  a reader clicks on the post they want to see,  
+        we’ll bring them to this page,  which will display the entire post.
+        We won't add the ability to add  comments or like functionality just yet.  
+        We'll do that after we've added authentication.
+        First, let's check in on our user stories.  We have these three, now that are done.
+        We did the pagination in our previous videos,  
+        the ability to view likes, and  the ability to view our post list.
+        Now though, we want to add open a  post and view comments to in progress.
+        So remember adding a new view checklist,  
+        we want to create the view code, create the  template, and then connect up our URLs file.
+        Well we're going to follow exactly  the same procedure with this.
+        So in our editor, open up our views.py file  again and import View from django.views. 
+        We’re also going to import our familiar  get_object_or_404 function from Django shortcuts.
+        And then we can add a PostDetail  class, which inherits from the view.
+        So PostDetail and view.
+        Now this time we're not using one  of Django's helpful generic views,  
+        so we have to do everything ourselves.
+        And this gives us the opportunity to  talk a bit more about class-based views.  
+        When you created function-based views in the Hello  
+        Django project you pass the request  object as an argument to your view.
+        You then check to see if  the request method was GET  
+        or POST so that you could  decide what you wanted to do.
+        Now class-based views are different.
+        Instead of using an if statement  to check the request method,  
+        we simply create class methods called  get or post, or any other HTTP verb.
+        So to display our post what  request method will we use?
+        Get, Post or a different verb?
+        Well pause the video for a  minute and think about it.
+        I'm sure you realize that, because we  want to get our blog post and display it  
+        then we'll be using a GET method.
+        So, let’s create a class method called get. Into  our class method, we're going to pass in self,  
+        then request then slug, and the standard other  arguments and keyword arguments as parameters.
+        Then we need to get our post object.
+        So how do we identify which post we want?
+        We're looking at the list of parameters in our  get method what do you think? Again, pause the  
+        video for a minute and see if you can figure out  how we'll identify which post we want to display.
+        I'm sure you figured out that it was by using  the slug, which is unique for each blog post.  
+        So, in our method let's get the post.
+        First, we'll filter all of our posts so that we  only have the active ones with status set to one.
+        And then, we'll get our published  post with the correct slug.
+        By passing in our queryset to get_object_or_404,  and then with the arguments "slug = slug".
+        Now the post object contains most of the  helpful things that we're looking for.  
+        So using this we can get any comments  that are attached to the post.
+        So we'll type "comments =", we're  
+        able to get the comments from our post, we'll  filter them to view only those that are approved.
+        And we're going to order them this time  in ascending order, so that we have the  
+        oldest comment first and we can actually view  this as a conversation. I also want to set a  
+        boolean value to say whether our logged-in  user had liked this post or not. If we did,  
+        we'll set the boolean to true, otherwise it  will remain false. So we'll say "liked = false"  
+        and then we'll check with an if statement here, 
+        to see if our post  
+        when we filter it out if the user id is actually  there to say that they've liked the post.
+        If they are, we'll set it to true,  otherwise it will remain false.
+        Finally then, for this view, we can send all  of this information to our render method.  
+        So we'll return render, we're  going to send a request through,  
+        we're then going to supply the template  that we require post_detail.html.
+        Then we'll create a dictionary here to supply  our context. So our post will be simply post,  
+        our comments key will be the  comments that we got back, 
+        and liked will be our liked boolean.
+        Now we are going to add more to this view  a bit later but that will do for now.
+        So now what I'd like you to do,  
+        is go on to the second item in our new view  checklist which is to create the template.
+        Now we've provided you with a starter  template called post_detail.html.  
+        Open it up now follow the instructions in the  comments to complete the template yourself,  
+        maybe give yourself around  10 or 15 minutes to do that.
+        And when you come back, we'll  compare our code in the next video.  
+        So for now you can take a break, look through  that, add in all of the template tags in the  
+        right place. And then at the beginning of  our next video we'll check the code together.
 
 
+# __The Post Detail View - part 2__
+WHAT IS IT? ---- The post detail view
+WHAT DOES IT DO? ---- Allows us to view the content of our blog post
+HOW DO YOU USE IT? ---- Follow the three step process to creating new views
 
-
-
-
+In our previous video, I set you the challenge  of adding content to our post_detail.html.
+Hopefully, you were able to add  in everything you need. If not,  
+please compare your code with the source  code link at the bottom of the video.
+Right now I'll quickly scroll down the code and  
+you can check off if you  got each element in place.
+So we have our featured image, our post content,  just over here then we have a number of likes,
+then we have our total comments.
+And finally, we have a comment name, and  comment created_on and then our comment body.
+Now we will need to add to this template later,  
+especially when we come to adding commenting and  like functionality but it will suffice for now.
+The third item on our list is to wire up the URLs.
+And that's exactly what  we're going to do right now.
+So open up the blog/URLs py  file and let's add our path.
+So our path is:
+"path('<slug:slug>/',  views.PostDetail.as_view(), name='post_detail'),"
+So let's unpick what's happening here.
+The second and third arguments,  
+we already know about but what's  happening with all of these slugs?
+Well the first slug in angle  brackets is called a path converter. 
+The second slog is a keyword name.
+Now this could be anything we wanted, but  to keep it consistent we're calling it slug.
+The path converter converts this text into a slug  field, it tells Django to match any slug string,  
+which consists of ASCII characters or numbers  plus the hyphen and underscore characters.
+There are a number of these helpful path  converters, which allow you to match numbers,  
+or strings, or characters. I've put a link  to the relevant Django docs below the video.
+This means that, as we said  before, our posts will have  
+friendly URLs that consist of our  Heroku project URL followed by the slug.
+The final thing that we need to do then is to  add the post detail URL into our index.html file,  
+so that users can click on the title  or the excerpt and read the post.
+So back in index.html, let's  replace our hashtag here  
+with a control statement. So that's the curly  braces and the percent sign, it's a URL which  
+will be the post detail URL we just created,  and that will accept post.slog as an argument.
+So let's now save everything and test our project.
+And as we can see this is  working absolutely fine now.
+So we've completed our three  steps to wire up a new view.
+We created the view code, we created our template  file, and we wired that up in our urls.py file. 
+We've also completed our two  in progress user stories,  
+so we can move those now into the done column.
+In our next video, then, we're  going to investigate authentication  
+so that our users can register, and  then comment on, and like our posts.
 
 
 

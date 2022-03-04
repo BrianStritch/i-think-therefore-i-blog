@@ -24,14 +24,12 @@ class Post(models.Model):
     # this class gets created inside the Post class and the following class and variables 
     #    are known as helpers and help structure the data
     class Meta:
-        ordering = ['-created_on'] # the minus sign orders in descending
-
+        ordering = ['-created_on']   # the minus sign orders in descending
 
     # add this next block to your projects as django says its "it's a  
     #     magic method that returns a string 
     #     representation of an object and it says you should define  
     #     it because the default isn't helpful at all."
-
 
     def __str__(self):
         return self.title
@@ -52,7 +50,7 @@ class Comment(models.Model):
     approved = models.BooleanField(default=False)
 
     class Meta:
-        ordering = ['created_on'] # without the minus sign orders in ascending
+        ordering = ['created_on']   # without the minus sign orders in ascending
 
     def __str__(self):
         return f"Comment {self.body} by {self.name}"
