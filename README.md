@@ -16,6 +16,11 @@
  then 
  - python3 manage.py migrate
 
+to install authorisation from allauth
+ - pip3 install django-allauth   -- update requirements.txt file after install
+ - python3 manage.py migrate     -- make migrations when completed after setting login and logout redirect
+
+
 
 ## __ THE DEVELOPMENT PLAN__
     - We're now ready to start  coding out our Django blog. 
@@ -1001,11 +1006,158 @@ In our next video, then, we're  going to investigate authentication
 so that our users can register, and  then comment on, and like our posts.
 
 
+# __Authorisation - part 1__
+WHAT IS IT? ---- Django AllAuth 
+WHAT DOES IT DO? ---- Allows us to easily add authentication to our project 
+HOW DO YOU USE IT? ---- Install and configure the AllAuth library
+
+So far, we’ve been able to build a  basic blog application quite rapidly,
+and that’s the beauty of a  batteries-included framework like Django.
+It's actually designed for  rapid application development.
+If we didn't want any extra functionality such  as allowing commenting or likes, then our project
+would already be finished. Because we do want  this, however, we're going to add authentication
+which will allow users to register with our  blog, leave comments, and like or unlike posts.
+So first, let's move another user  story to our in progress column.
+And that's our account registration
+of course Django comes with a perfectly  good authentication system built in
+you've already used it when we created a super  user and logged into the admin panel we're not
+going to use it for this project though instead  we're going to use a library called all auth
+why well because all auth offers some distinct  advantages such as being able to send password
+and account confirmation emails enforcing password  complexity and providing single sign-on using
+google or facebook in this project we'll use the  basic functions of all auth if you'd like to look
+at performing single sign-on then leave that until  the end of this project i'll give you some ideas
+as to how you could expand the functionality and  some resources too we won't do it in these videos
+because you'll need to use a credit or a debit  card to sign up to use the google development
+tools although you shouldn't be charged if  you're interested in configuring password
+reset and account confirmation emails then we'll  cover that in detail in our e-commerce module for
+now though let's get all auth installed 
+
+    - so we type  pip3 space install space django hyphen all auth "pip3 install django-allauth"
+        
+    - when that's installed update your  requirements.txt file before we forget
+
+    - now we need to add our all auth urls to our main  urls.py file so under the codestar directory
+        open our urls.py file and then we'll add a line  inside our url patterns list and this is very
+        similar to what we've already done before  we're going to provide the path to accounts
+        so this will be our url and then we're  going to include the all auth urls
+
+    - we then need to make some changes to our  settings.py file so let's head over there
+        and we can add in the all auth apps that we've  just installed so first of all we need to
+        add django.contrib.sites this is a built-in  django package and then our all auth packages
+        so all auth all auth dot account  and all auth dot social account
+
+        we also need to add a site id of one this  is so that django can handle multiple sites
+        from one database now of course we only  have one site here using our one database
+        but we'll still need to explicitly tell django  the site number so site underscore id equals one
+        and we'll add in the redirection  urls too so that after we've logged
+        in all logged out the site will  redirect us to the home page
+
+        so log in redirect url equals forward slash we'll  just copy that and then change login to log out
+
+    - okay let's save everything and run our migrations  you can remember how to do that at this stage 
+
+    - now we can run our project now when we run  our project we're going to head over to the
+        accounts sign up url to see what we get now if you  are currently logged in as admin then make sure
+        you log out first via the link in the admin panel  otherwise you'll just keep getting redirected to
+        the front page so let's go to forward slash  accounts forward slash sign up and helpfully
+        all auth provides these templates to allow us  to sign up log in and log out the urls are
+        provided by the path that we added to our urls.py  file now okay it's not pretty but does it work
+        well let's give it a go let's sign up  for a new account and see what happens
+        and we get redirected back to the home page which  is what we expected because that was the login
+        redirect url that we added you'll also notice that  our top navbar has now changed to log out now our
+        logout link doesn't do anything yet so let's wire  up those links and then look at customizing the
+        templates in our next video
+        
+    - so let's go back  to our editor first into our base.html file
+        and we'll change our navigation so in the if  user is authenticated block in log out here
+        let's add this url so our url is going to be  account underscore logout now all of the urls for
+        all auth are prefixed with account underscore  so see if you can provide the other two here for
+        our register for sign up and for login pause the  video for a couple of minutes while you add them
+        so this is what we have account  underscore sign up and account underscore
+        login not too difficult was it so let's  run our project again and check if it works
+        so as you can see the functionality works but it's  definitely not the ui that we want for our project
+        so where do these templates live and  how can we go about customizing them
+        well we'll look at that in our next video
+
+# __Authorisation - part 2__
+WHAT IS IT? ---- Django AllAuth
+WHAT DOES IT DO? ---- Allows us to easily add authentication to our project
+HOW DO YOU USE IT? ---- Install and configure the AllAuth library
 
 
+In our previous video, we got AllAuth installed  and working, but our templates were a bit ugly!
+Fortunately, it provides a convenient  way of modifying the templates.  
+But we do need a bit of manual copying.
 
+    - Firstly, we need to know what  version of Python you're using.
+        So, back in the terminal window  type: ls ../.pip-modules/lib/
+        And this will list the files in the pip  modules lib directory which lives just  
+        above our workspace. On my machine  it says that I'm using Python 3.8  
+        which is where all the files for the  modules we've installed with pip will live.
+        So we're going to copy all of  those into our templates directory.
+        So "cp -r", which means to copy recursively so  that will include any directories, I then have  
+        my Python 3.8 thereafter lib. If your version  is different you'll need to change that version.
+        The rest of it should be the same. /allauth/templates/* ./templates 
 
+        ***  "cp -r ../.pip-modules/lib/python3.8/site-packages/allauth/templates/* ./templates"  ***
 
+        Which means to copy everything and I want to  copy that into my templates directory here.
+
+    - Now you'll see that this has created  multiple directories in our templates folder.  
+        We can ignore most of these, the one that  we're really interested in is account.
+
+    - So let's navigate to there, and we'll  choose the login.html template first.
+        Now you can see when we open it up that  this is a standard Django template.
+        I want to show you how to modify  this but I'll supply you with the  
+        other completed templates for the others.  
+        You'll need to know how to copy and modify  these templates for your own projects, though.
+        So first of all, we can see that it says  to extend account forward slash base.html.
+        So let's delete the account and the forward slash,  
+        so that it's extending the  base.html file that we created.
+        So now it just says extends base.html.  
+
+        And if we save that, and we visit  our account/login URL again.
+        Let's just run our server again,  because it had stopped, go to login.
+        And we can see that it already looks a lot  better but let's improve on it even more.
+
+        We'll go back to our editor. And first of all, we can delete the social account  part, because we're not going to be using that. So from the get, right down here to the else statement we can delete all of that.
+        Let's take off the end if as well underneath  there, so that we're not causing any errors.
+        We can also delete our forgot password link,  because we're not going to be using that in this particular project.
+        As I said, we'll cover that in  detail in our e-commerce module.
+
+    - Okay so the next thing that I want to do now,  then, is to add in some standard Bootstrap classes.
+        So I'm going to use emmett to do  this, I'm going to create a container.  
+        I'm going to add a row inside that container,  
+        a standard md8 column, which has a top margin  set, and an offset of two, so that it's centered. 
+        Okay and I'm just going to  take these closing divs and  
+        can throw them right down at  the bottom here, out of the way.
+        Unfortunately, our auto formatting  doesn't seem to be working here. So  
+        we'll try and make this look a little bit  nicer, let's just move that across then,  
+        I'm going to change it to a h3 instead of a h1.
+        And for my paragraph here I want to change  the text in the paragraph as well to match  
+        what we had on our example login page.
+        So I'm just going to paste that in. We'll change the formatting here,  
+        you can do the same with your project too,  just make it a little bit easier to read.
+        Okay, then we can close our  column and close our row div.
+        And we want to create another row and another  column, this is going to contain our login form.
+        So again, it's going to be a row, it's  going to be a column with the width of 8,
+        and it's going to have the same top margin,  and the same offset so that it's centered.
+        Okay, just delete those two here,  
+        don't need those closing div tags because  we already put them down at the end.
+        Okay our form is absolutely fine.  Let's just move it across a little bit  
+        and delete that closing div  because we only need two.
+        Okay, and I just need to change the class of  my button here now to a standard Bootstrap class.
+        I've created a btn sign up class in our  custom css. So it will give it a little bit of  
+        a different color and appearance and that's  our template completed. So let's save that.
+        We'll go back to our project and  just refresh the login page here,  
+        and now everything is looking so much better.
+        So in this video and the last  one, we've seen how to install,  
+        integrate, and customize Django AllAuth. 
+        I've put a link to the other completed templates  below the video and you can just copy and paste  
+        them into the appropriate files or just copy  the file into the account directory there.
+        For now then, we can move our user story to  done because we've added our authorization.
+        In our next few videos, we're  going to add the commenting  
+        and like features, and then  our blog is almost complete.
 
 
 
