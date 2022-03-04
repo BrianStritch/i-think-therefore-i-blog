@@ -958,35 +958,39 @@ HOW DO YOU USE IT? ---- Follow the three step process to creating new views
 In our previous video, I set you the challenge  of adding content to our post_detail.html.
 Hopefully, you were able to add  in everything you need. If not,  
 please compare your code with the source  code link at the bottom of the video.
-Right now I'll quickly scroll down the code and  
-you can check off if you  got each element in place.
-So we have our featured image, our post content,  just over here then we have a number of likes,
-then we have our total comments.
-And finally, we have a comment name, and  comment created_on and then our comment body.
-Now we will need to add to this template later,  
-especially when we come to adding commenting and  like functionality but it will suffice for now.
-The third item on our list is to wire up the URLs.
-And that's exactly what  we're going to do right now.
-So open up the blog/URLs py  file and let's add our path.
-So our path is:
-"path('<slug:slug>/',  views.PostDetail.as_view(), name='post_detail'),"
-So let's unpick what's happening here.
-The second and third arguments,  
-we already know about but what's  happening with all of these slugs?
-Well the first slug in angle  brackets is called a path converter. 
-The second slog is a keyword name.
-Now this could be anything we wanted, but  to keep it consistent we're calling it slug.
-The path converter converts this text into a slug  field, it tells Django to match any slug string,  
-which consists of ASCII characters or numbers  plus the hyphen and underscore characters.
-There are a number of these helpful path  converters, which allow you to match numbers,  
-or strings, or characters. I've put a link  to the relevant Django docs below the video.
-This means that, as we said  before, our posts will have  
-friendly URLs that consist of our  Heroku project URL followed by the slug.
-The final thing that we need to do then is to  add the post detail URL into our index.html file,  
-so that users can click on the title  or the excerpt and read the post.
-So back in index.html, let's  replace our hashtag here  
-with a control statement. So that's the curly  braces and the percent sign, it's a URL which  
-will be the post detail URL we just created,  and that will accept post.slog as an argument.
+
+        Right now I'll quickly scroll down the code and  
+        you can check off if you  got each element in place.
+        So we have our featured image, our post content,  just over here then we have a number of likes,
+        then we have our total comments.
+        And finally, we have a comment name, and  comment created_on and then our comment body.
+        Now we will need to add to this template later,  
+        especially when we come to adding commenting and  like functionality but it will suffice for now.
+
+    - The third item on our list is to wire up the URLs.
+        And that's exactly what  we're going to do right now.
+        So open up the blog/URLs py  file and let's add our path.
+        So our path is:
+        "path('<slug:slug>/',  views.PostDetail.as_view(), name='post_detail'),"
+        So let's unpick what's happening here.
+        The second and third arguments,  
+        we already know about but what's  happening with all of these slugs?
+        Well the first slug in angle  brackets is called a path converter. 
+        The second slog is a keyword name.
+        Now this could be anything we wanted, but  to keep it consistent we're calling it slug.
+        The path converter converts this text into a slug  field, it tells Django to match any slug string,  
+        which consists of ASCII characters or numbers  plus the hyphen and underscore characters.
+        There are a number of these helpful path  converters, which allow you to match numbers,  
+        or strings, or characters. I've put a link  to the relevant Django docs below the video.
+        This means that, as we said  before, our posts will have  
+        friendly URLs that consist of our  Heroku project URL followed by the slug.
+
+    - The final thing that we need to do then is to  add the post detail URL into our index.html file,  
+        so that users can click on the title  or the excerpt and read the post.
+        So back in index.html, let's  replace our hashtag here  
+        with a control statement. So that's the curly  braces and the percent sign, it's a URL which  
+        will be the post detail URL we just created,  and that will accept post.slog as an argument.
+
 So let's now save everything and test our project.
 And as we can see this is  working absolutely fine now.
 So we've completed our three  steps to wire up a new view.
