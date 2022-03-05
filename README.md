@@ -1319,7 +1319,118 @@ In our previous video, we got our form  rendering. Now, we need to get it workin
         After that's added, we just have some  cleaning up and a final deployment to do.  
         Our blog is nearing completion. Well done!
 
+# __Likes__
+WHAT IS IT? ---- Likes 
+WHAT DOES IT DO? ---- Allows logged-in users to leave like or unlike blog posts 
+HOW DO YOU USE IT? ---- Add the like buttons and view
 
+Our blog is getting closer  and closer to completion.
+The ability to like or unlike a post is the last  major piece that we're going to add. In fact,  
+we're going to move our final  user story into in progress.
+After this, we're going to add in  a little bit of extra functionality  
+and then clean up before our final deployment.
+
+    - For this, we'll need to create a new view.
+        Can you remember the three steps that we need  to take whenever we add a new view in Django?
+        That's right,  
+         - we need to create the view code,  
+         - create the view template, 
+         - and connect up our URLs file. 
+
+    - In this case, we won't need to create  the template, since it already exists;  
+        however, we will need to modify  our post_detail.html template.
+
+    - So let's start by creating the  view code in our views.py file.
+        I'd like you to create a new class-based view. It'll be called PostLike it'll inherit from view.  
+        And the method will be called post, which will  take three parameters: self, request, and slug.
+        Pause the video for a couple  of minutes while you add that.
+        So your new view should look like this.
+
+        class PostLike(View):
+
+            def post(self, request, slug):
+        
+        Now, we can add the functionality. So again, just stop for a moment  
+        and think about what this view needs  to do. As a hint, think about toggling.
+        Any ideas?
+
+        Well if we haven't already liked the  post, then we need to mark it as liked. 
+        If we have, then we need to mark it as unliked.
+        In effect, we're toggling the state.
+        So first, let's get the relevant  post using our get_object_or_404 method.
+        Then, we'll toggle the state.
+        
+        We'll use an if statement to check if our post is  already liked and if it is we'll remove the like.
+        So remember how we checked if a  post was already liked before?
+        We used an if statement, we filtered  our post.likes on the user ID  
+        and if the user ID exists, then  it's been liked, so we can remove it.
+        If it hasn't already been liked,  then we need to add the like.  
+        So we can add an else clause  with: post.likes.add(request.user)
+        Now we need to reload our post_detail  template so that we can see the results.
+        To do this, we'll use a new response  type called HttpResponseRedirect.  
+        So let's go up to the top of our views.py  file and import this from django.http.
+        So: from django.http import HttpResponseRedirect
+        And we also need to add the reverse shortcut.  This allows us to look up a URL by the name  
+        that we give it in our urls.py file. So  add reverse to our django.shortcuts import.
+        And now back in our view, we  can put all of this together.
+        So let's scroll down to the end  and we're going to just add:
+        return HttpResponseRedirect(reverse('post_detail',  args=[slug]))
+        And the arguments will be the slugs, so that we know which post to load. So now when we like or unlike a post it will reload our page.
+        Okay, now that our view is set  up, let's modify the template. 
+        Now, if we scroll down here.
+        We can see that we have our heart showing  the number of likes, and we want to turn this  
+        heart into a button that we can use to like or  unlike the post - but only if we're logged in.
+        So if our user is authenticated, we'll display  the buttons. And we're going to do this in a form.
+        The form will have the method of POST,  
+        and its action will be the new  view that we've just created.
+        So I'm going to add some strong tags, first  of all because I want all of this to be bold.
+        We'll add in our if user is  authenticated if statement.
+        Then this is just a standard form.
+        We're going to give it the class of display  inline because we don't want it to add a line  
+        break at the end. Its action will be our new  post likes URL that we haven't created yet.
+        It'll take the argument of the slug.
+        Its method will be post.
+        And of course, we also then  need to add our CSRF token.
+        Now we want to display a solid heart  if the user has liked the post,  
+        and an outline if they haven't liked it yet.
+        So remember that we're passing a Boolean value  from our post detail view that's called liked,  
+        we'll check that here.
+        So I want you to add an if else block  to check if the liked boolean is set.  
+        I'll give you a couple of minutes to do that,  
+        don't worry about doing the  buttons, we'll do that together.
+        So just create an empty if else  block that checks the liked boolean.
+        Okay, so if the post is liked, we  said that we'll display a solid heart  
+        and this will actually be a submit  button, so that it triggers our form.
+        So inside the if clause let's add our button.
+        We can see that it has the type  of submit the value is post.slug  
+        and inside that we have a solid heart,  fas class is font awesome solid.
+        In the else clause we can add exactly the  same code, but what we're just going to do  
+        is change the icon class so that it gives  us an outline rather than a solid heart.
+        So to do that, all we actually need to  do is change the class from fas to far.
+        Okay so now after our form is closed,  
+        what we're going to do is just add in a  heart for if the user is not logged in.
+        So we're going to add an else clause here,  
+        this is an else clause that refers  to our user is authenticated block.
+        So if the user is not authenticated, then we're  just going to display the standard heart outline.
+        Okay, now we can close our if statement  for our if user is authenticated.  
+        And then I'm just going to create a span  here to display the post number of likes.  
+        We already have this below, but I'm just going  to do it in a span rather than a strong class.
+        So as you can see just a span with the class of  text-secondary showing the post number of likes.
+        And there we go, that's our form created.
+        So now, all that we need to  do then is the third step.
+        Which is to add our URL.
+        And I'm going to let you add this so  here are the parameters you'll need.
+        The path is: like/<slug:slug> 
+        The view is our 'PostLike' and  remember to cast it as a view.
+        And the name matches the  name in our form 'post_like'.
+        How did you get on?
+        Well this is what your URL should look like.
+        Okay, so let's save that and run our project.
+        And now when we're logged in, we can like and  unlike the posts from our post_detail page.
+        So we've completed our three  steps to adding a new view,  
+        and now we can move our final  user story into the Done column.
+        Well done! So there are just a couple  of tidy ups that we need to do,  
+        and then we can make our final deployment.
 
 
 
