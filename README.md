@@ -20,6 +20,12 @@ to install authorisation from allauth
  - pip3 install django-allauth   -- update requirements.txt file after install
  - python3 manage.py migrate     -- make migrations when completed after setting login and logout redirect
 
+when modifying the login.html you need to copy the relevant templates with
+- ls ../.pip-modules/lib/     ---- this tells you which version of python you are using
+- cp -r ../.pip-modules/lib/python3.8/site-packages/allauth/templates/* ./templates  --- this copys the templates
+
+when allowing comments to be made we use a django form
+- pip3 install django-crispy-forms  -- update requirements and make migrations when completed
 
 
 ## __ THE DEVELOPMENT PLAN__
@@ -1090,7 +1096,10 @@ Fortunately, it provides a convenient  way of modifying the templates.
 But we do need a bit of manual copying.
 
     - Firstly, we need to know what  version of Python you're using.
-        So, back in the terminal window  type: ls ../.pip-modules/lib/
+        So, back in the terminal window  type: 
+
+        **               "ls ../.pip-modules/lib/"          ** 
+
         And this will list the files in the pip  modules lib directory which lives just  
         above our workspace. On my machine  it says that I'm using Python 3.8  
         which is where all the files for the  modules we've installed with pip will live.
@@ -1151,20 +1160,164 @@ But we do need a bit of manual copying.
         a different color and appearance and that's  our template completed. So let's save that.
         We'll go back to our project and  just refresh the login page here,  
         and now everything is looking so much better.
-        So in this video and the last  one, we've seen how to install,  
-        integrate, and customize Django AllAuth. 
-        I've put a link to the other completed templates  below the video and you can just copy and paste  
-        them into the appropriate files or just copy  the file into the account directory there.
-        For now then, we can move our user story to  done because we've added our authorization.
-        In our next few videos, we're  going to add the commenting  
-        and like features, and then  our blog is almost complete.
 
+So in this video and the last  one, we've seen how to install,  
+integrate, and customize Django AllAuth. 
+I've put a link to the other completed templates  below the video and you can just copy and paste  
+them into the appropriate files or just copy  the file into the account directory there.
+For now then, we can move our user story to  done because we've added our authorization.
+In our next few videos, we're  going to add the commenting  
+and like features, and then  our blog is almost complete.
 
+# __Commenting - part 1__
+WHAT IS IT? ---- Commenting 
+WHAT DOES IT DO? ---- Allows logged-in users to leave comments on our blog posts 
+HOW DO YOU USE IT? ---- Add the comment form and view
 
+Up to this point, the conversation  on our blog has been a bit one-way.
+Now, we want to give our viewers the  opportunity to interact meaningfully with the blog  
+by commenting or liking the post.
+This means we get to move more user stories over  to In Progress, so let’s go to our kanban board  
+and choose: comment on a post  and put that to in progress.
+Much of the backend work to get  comments working has already been done.  
+We have our model, and we can  approve/disapprove them in the admin panel.
 
+    - So, let’s turn our attention to creating our  comment form. We’re going to use a form library  
+        called Crispy forms to help us with formatting.  I’ve linked to the documentation below the video.
+        So let's install it to begin with: 
+        
+        ************    "pip3 install django-crispy-forms"   ***********************
 
+        As usual, update your requirements.txt file and  then we can add crispy_forms to our settings.py.
 
+    - So now we can go over to our settings.py  file and in the installed apps section,  
+        I'm just going to add crispy_forms  here beneath Django Summernote,
+        We'll also tell Crispy to use  Bootstrap classes for formatting. 
+        So: CRISPY_TEMPLATE_PACK = 'bootstrap4' .
+        Now, I know that we're using Bootstrap 5 in  this project, but the classes will work the same  
+        and at time of recording, Crispy didn't  have a Bootstrap 5 template pack available.
 
+    - Now, we need to create our form  class. So, in our blog directory,  
+        we’ll create a new file called forms.py.
+        And We need to import our comments  model and the forms base class. So: 
+        from .models import Comment from django import forms
+        Next, we can create our CommentForm  class that inherits from the base form.
+        So: class CommentForm(forms.ModelForm) We'll add a meta class and all we're doing here  
+        is telling our comment form what model to use, and  then which fields we want displayed on our form.
+        So in this case, body. 
+        Now that trailing comma is  important there in fields,  
+        otherwise Python will read this as a string  instead of a tuple, and that will cause an error.
+
+    - Okay now that we've added that, we  can head over to our views.py file  
+        and we're going to import  the form we just created.
+        See if you can figure out how to  do that for a couple of minutes.
+        That's right, it's from: .forms import CommentForm
+        So with the form imported, we now  need to render it as part of our view.
+        To do this, we can simply add it to our context.
+        So just under liked in our render method,  we're going to supply a new key comment_form.  
+        And the value will just be the comment  form that we imported just now.
+        Now that's done, we can turn our attention to our  post_detail template to get the form displaying.  
+
+    - So if you've closed it it's  there in the templates directory.
+        First of all, we want to  load Crispy forms at the top. 
+        So, inside our block content let's add these tags:
+        {% load crispy_forms_tags %}
+
+        And now we can scroll down our  form, and you remember that we  
+        had a section which comment of <!-- For later -->, well now is later.
+
+        That's what we're going to turn  our attention to right now.
+        So I'm just going to paste  the code in, you can copy it,  
+        and then we'll just talk  through what we're doing here.
+        So we've added a standard if  block so that our comment box  
+        only appears if our user is authenticated.
+        Then, we create our form with the method of post,  
+        we're rendering the form using the Crispy  filter so that it's formatted nicely.
+        And then we’re also adding a CSRF token.  CSRF stands for Cross-Site Request Forgery,  
+        and that's a way that attackers could try to find  vulnerabilities in your site. Django comes with a  
+        protection against that, which is the CSRF token.  So you need to add this to any form you create.  
+        If you want to read more about this,  I’ve linked it below the video. 
+        And then we have our submit button.
+
+So let's run our project and see what happens.
+As you can see, I'm logged in at the moment.
+And so when I click on my test post  then we can see the comment form  
+rendered on the right and the comments will appear on the left.
+Now at the moment, if you try  to submit this form it'll give you an error.
+So in our next video, we're going to fix that  by adding the post method to our views.py file.
+
+# __Commenting - part 2__
+WHAT IS IT? ---- Commenting
+WHAT DOES IT DO? ---- Allows logged-in users to leave comments on our blog posts
+HOW DO YOU USE IT? ---- Add the comment form and view
+
+In our previous video, we got our form  rendering. Now, we need to get it working.
+
+    - So what we're going to do is add a post method to  our PostDetail class back in our views.py file.
+        Now a lot of our post method will  be identical to our get method. 
+        So what I'm just going to do is copy  this, just select all of it here.
+        I'm going to copy it, paste it in, making  sure to get the indentation correct here.
+        And then I'm just going to  change the name from get to post.
+
+        When that's done, we need to get the  data from our form and assign it to a variable.
+        So I'm going to create a  new variable here called comment_form.
+        And that's the value is going to be set to:
+        comment_form = CommentForm(data=request.POST)
+        So this will get all of the data  that we posted from our form.
+        Now our form has a method called is  valid that returns a Boolean value  
+        regarding whether the form is valid, as in  all the fields have been completed or not. 
+        If it is valid, a comment has been  left and we want to process it. 
+        So let's get that: if comment_form.is_valid():
+        And what we're going to do is  set our email and our username  
+        automatically from the logged in user.
+        This is conveniently passed in as part  
+        of the request so that we can  get those details from there.
+        So we'll set the email to the request.user email.
+        We'll set the instance name  to the request username.
+        And then, we're going to call  the save method on our form  
+        but we're not actually going to  commit it to the database yet.
+        The reason is that we want to first assign a  post to it. So comment.post equals our post instance,  
+        so that we know which post a comment has  been left on and then we can save it.
+        We'll add an else clause here as  well, because if the form is not valid  
+        then we just want to return an  empty comment form instance. So:
+        else: comment_form = CommentForm()
+        Okay, so now we just need  to adjust our render method.
+        And what we're going to do is  set a commented value to True.
+        So just under our comments here,  
+        in our render method I'm going to say commented  and I'm going to set that value to True.
+        Now we'll also add a corresponding False value  to our get method, so let's just copy that.
+        We'll go back up to render and I'm  going to set commented to False.  
+        And we're doing this so that we can tell our  user that their comment is awaiting approval,  
+        we're going to use this Boolean  back in our post detail template.
+
+    - So let's go back there now and  we're going to add this condition.
+        Now again, I'm going to paste it in  and it needs to go just above the  
+        if user is authenticated block here.
+        And what we're doing is saying that if our  commented boolean value is set to True. 
+        So if commented, then instead  of the comments form, we'll  
+        just display a message here saying  your comment is awaiting approval.
+        Otherwise, if it's set to False,  we'll display the comment form.
+        Don't forget to add the second end if there at the  bottom either, so that both if blocks are closed.
+        Okay so let's run our project  and try adding a comment.
+        So when we go back we can see that  I'm masquerading as Brian here.
+        I'm sure he won't mind.
+        I'm going to add a comment and click on submit.
+        And then as you can see, we get that message  
+        because commented was set to True,  that our comment is waiting approval.
+        So where is it?
+        Well let's log into our  admin panel and take a look.
+        So you'll have to log out if you're  logged in as a non-admin user here  
+        and I'm going to go into my  admin panel now as admin.
+        When I click on comments then you can see that the comment is there but it's not showing as approved.
+        We'll select it, we'll approve  that comment, click on go,  
+        and now we can see that our little approved  column has changed to a green check mark.
+        When we view the site and  click back on our test post,  
+        then we can see that Brian's comment  is there on the left hand side.
+        Congratulations! We've added  commenting functionality. 
+        Now then, we can add our user  story into the done column.
+        And in our next video, we'll start  adding the like functionality.
+        After that's added, we just have some  cleaning up and a final deployment to do.  
+        Our blog is nearing completion. Well done!
 
 
 
