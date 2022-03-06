@@ -489,9 +489,9 @@ __NOTE__
 # __--------------  MAKE SURE YOU CHECK SPELLINGS BEFORE MIGRATING  ------------__
 
 # __Building The Admin Site - part 1__
-WHAT IS IT?    -----    The Django admin panel 
-WHAT DOES IT DO?   ----  Allows a superuser to administer the site 
-HOW DO YOU USE IT?  ----  Log in to the /admin URL with a superuser account
+WHAT IS IT?    -----    The Django admin panel <br>
+WHAT DOES IT DO?   ----  Allows a superuser to administer the site <br>
+HOW DO YOU USE IT?  ----  Log in to the /admin URL with a superuser account<br>
 
 A blog is not much use unless we  have a way to write posts.
 Happily, Django comes with a built-in admin  panel that we can use for this purpose.
@@ -601,9 +601,9 @@ site as we want. I'm just going to add in the  excerpt, set it to published, and
 In our next video, we're going to carry on tweaking our admin site so that it's even more user-friendly.
 
 # __Building The Admin Site - part 2__
-WHAT IS IT?  ----   The Django admin panel 
-WHAT DOES IT DO?  ----  Allows a superuser to administer the site 
-HOW DO YOU USE IT?  ----  Log in to the /admin URL with a superuser account
+WHAT IS IT?  ----   The Django admin panel <br>
+WHAT DOES IT DO?  ----  Allows a superuser to administer the site <br>
+HOW DO YOU USE IT?  ----  Log in to the /admin URL with a superuser account<br>
 
 In our previous video, we got  our basic post admin working,  
 but we're not finished  tweaking our admin site yet. 
@@ -699,9 +699,9 @@ There's much more left to add.
         and we'll move more of our  user stories to in progress.
 
 # __View Creation Checklist__
-WHAT IS IT? ---- Our first view 
-WHAT DOES IT DO? ---- Allows us to view our blog post list 
-HOW DO YOU USE IT?  ---- Follow the three step process to creating new views
+WHAT IS IT? ---- Our first view <br>
+WHAT DOES IT DO? ---- Allows us to view our blog post list <br>
+HOW DO YOU USE IT?  ---- Follow the three step process to creating new views<br>
 
 In our previous two videos, we set up our blog  admin page. Remember, though, that Django is an  
         MVT-based framework - Model, View, and Template. We’ve set up our database models for posts and  
@@ -785,9 +785,9 @@ Apart from a bit of Bootstrap at the  moment there's nothing else here.
 In our next video, we're going to add content to  this index.html file and wire up our first URL.
 
 # __Creating Our First View__
-WHAT IS IT? ---- Our first view
-WHAT DOES IT DO? ---- Allows us to view our blog post list 
-HOW DO YOU USE IT? ---- Follow the three step process to creating new views
+WHAT IS IT? ---- Our first view<br>
+WHAT DOES IT DO? ---- Allows us to view our blog post list <br>
+HOW DO YOU USE IT? ---- Follow the three step process to creating new views<br>
 
 In our previous video, we completed step one  of our checklist and we built the view code.
 In this video, we'll finish step two to create  
@@ -884,9 +884,9 @@ And then I'll see you in our next one  when we build our post detail view.
 Default image URL is: https://codeinstitute.s3.amazonaws.com/fullstack/blog/default.jpg
 
 # __The Post Detail View - part 1__
-WHAT IS IT? ---- The post detail view 
-WHAT DOES IT DO? ---- Allows us to view the content of our blog post 
-HOW DO YOU USE IT? ---- Follow the three step process to creating new views
+WHAT IS IT? ---- The post detail view <br>
+WHAT DOES IT DO? ---- Allows us to view the content of our blog post <br>
+HOW DO YOU USE IT? ---- Follow the three step process to creating new views<br>
 
         You now know the basics of adding views to Django.
         So in these next two videos,  I'm going to set you off,  
@@ -962,9 +962,9 @@ HOW DO YOU USE IT? ---- Follow the three step process to creating new views
 
 
 # __The Post Detail View - part 2__
-WHAT IS IT? ---- The post detail view
-WHAT DOES IT DO? ---- Allows us to view the content of our blog post
-HOW DO YOU USE IT? ---- Follow the three step process to creating new views
+WHAT IS IT? ---- The post detail view<br>
+WHAT DOES IT DO? ---- Allows us to view the content of our blog post<br>
+HOW DO YOU USE IT? ---- Follow the three step process to creating new views<br>
 
 In our previous video, I set you the challenge  of adding content to our post_detail.html.
 Hopefully, you were able to add  in everything you need. If not,  
@@ -1013,9 +1013,9 @@ so that our users can register, and  then comment on, and like our posts.
 
 
 # __Authorisation - part 1__
-WHAT IS IT? ---- Django AllAuth 
-WHAT DOES IT DO? ---- Allows us to easily add authentication to our project 
-HOW DO YOU USE IT? ---- Install and configure the AllAuth library
+WHAT IS IT? ---- Django AllAuth <br>
+WHAT DOES IT DO? ---- Allows us to easily add authentication to our project <br>
+HOW DO YOU USE IT? ---- Install and configure the AllAuth library<br>
 
 So far, we’ve been able to build a  basic blog application quite rapidly,
 and that’s the beauty of a  batteries-included framework like Django.
@@ -1086,9 +1086,9 @@ now though let's get all auth installed
         well we'll look at that in our next video
 
 # __Authorisation - part 2__
-WHAT IS IT? ---- Django AllAuth
-WHAT DOES IT DO? ---- Allows us to easily add authentication to our project
-HOW DO YOU USE IT? ---- Install and configure the AllAuth library
+WHAT IS IT? ---- Django AllAuth<br>
+WHAT DOES IT DO? ---- Allows us to easily add authentication to our project<br>
+HOW DO YOU USE IT? ---- Install and configure the AllAuth library<br>
 
 
 In our previous video, we got AllAuth installed  and working, but our templates were a bit ugly!
@@ -1170,9 +1170,9 @@ In our next few videos, we're  going to add the commenting
 and like features, and then  our blog is almost complete.
 
 # __Commenting - part 1__
-WHAT IS IT? ---- Commenting 
-WHAT DOES IT DO? ---- Allows logged-in users to leave comments on our blog posts 
-HOW DO YOU USE IT? ---- Add the comment form and view
+WHAT IS IT? ---- Commenting <br>
+WHAT DOES IT DO? ---- Allows logged-in users to leave comments on our blog posts <br>
+HOW DO YOU USE IT? ---- Add the comment form and view<br>
 
 Up to this point, the conversation  on our blog has been a bit one-way.
 Now, we want to give our viewers the  opportunity to interact meaningfully with the blog  
@@ -1247,9 +1247,9 @@ Now at the moment, if you try  to submit this form it'll give you an error.
 So in our next video, we're going to fix that  by adding the post method to our views.py file.
 
 # __Commenting - part 2__
-WHAT IS IT? ---- Commenting
-WHAT DOES IT DO? ---- Allows logged-in users to leave comments on our blog posts
-HOW DO YOU USE IT? ---- Add the comment form and view
+WHAT IS IT? ---- Commenting<br>
+WHAT DOES IT DO? ---- Allows logged-in users to leave comments on our blog posts<br>
+HOW DO YOU USE IT? ---- Add the comment form and view<br>
 
 In our previous video, we got our form  rendering. Now, we need to get it working.
 
@@ -1320,9 +1320,9 @@ In our previous video, we got our form  rendering. Now, we need to get it workin
         Our blog is nearing completion. Well done!
 
 # __Likes__
-WHAT IS IT? ---- Likes 
-WHAT DOES IT DO? ---- Allows logged-in users to leave like or unlike blog posts 
-HOW DO YOU USE IT? ---- Add the like buttons and view
+WHAT IS IT? ---- Likes <br>
+WHAT DOES IT DO? ---- Allows logged-in users to leave like or unlike blog posts <br>
+HOW DO YOU USE IT? ---- Add the like buttons and view<br>
 
 Our blog is getting closer  and closer to completion.
 The ability to like or unlike a post is the last  major piece that we're going to add. In fact,  
@@ -1441,9 +1441,9 @@ Well done! So there are just a couple  of tidy ups that we need to do,
 and then we can make our final deployment.
 
 # __Messages__
-WHAT IS IT? ---- Messages
-WHAT DOES IT DO? ---- Allows us to provide flash messages to our user
-HOW DO YOU USE IT? ---- Add the message tags and some custom JavaScript
+WHAT IS IT? ---- Messages<br>
+WHAT DOES IT DO? ---- Allows us to provide flash messages to our user<br>
+HOW DO YOU USE IT? ---- Add the message tags and some custom JavaScript<br>
 
 In this video, I want to  talk to you about messages.
 Messages in Django are very useful because they  
@@ -1525,7 +1525,95 @@ I'm not going to give you this code
 but you can find details of how  to add a message below the video.
 When you've done that and you're ready we  can move on to our final deployment video.
 
-# __
+# __Final Deployment__
+WHAT IS IT? ---- Our final deployment<br>
+WHAT DOES IT DO? ---- Deploys our finished project to Heroku<br>
+HOW DO YOU USE IT? ---- Set DEBUG to False and set our frame origin<br>
+
+Well done! You've come a long  way on your Full Stack journey.
+This is the final video in this section. 
+You've seen how to use class-based views in  Django to build an attractive blog project.
+We've used many of the batteries  included features of the framework  
+to add messaging feedback,  authentication, comments and likes.
+Hopefully, the Hello Django module and this blog  
+introduction have shown you the  power of the Django framework.
+In this video, we have a couple of  small things that we need to do before  
+we do our final deployment to Heroku. I also want to talk to you about how  
+you could extend this project to make  your portfolio even more impressive.
+
+   - When it comes to deployment with Django  there's one thing you always need to remember. 
+        The debug flag must be set  to False in settings.py.
+        I'm going to say that again, because  it's amazing how often people forget.
+        You must set the debug flag to False.
+        Let's do it now and talk about why.
+        So we'll change True to False.
+        So why is this so important?
+        Well if you leave it turned  on then two things happen.
+        Firstly, Django will serve the static  files such as css files itself,  
+        instead of relying on Cloudinary.
+        Now this may seem like a small thing,
+        but Django's designed to serve these  files from another source such as a CDN.
+        It impacts on performance  when it serves them itself.
+        Secondly, when debug is switched on, Django  gives you verbose error pages with a traceback.
+        You've probably seen those big yellow  pages full of information already.
+        This traceback can reveal a lot about your code,  
+        it can even reveal credentials and  things that you want to keep secret.
+        And obviously attackers can use  this to try compromise your site.  
+        Might not seem like a big  deal for your little blog,  
+        but your client saw your employer would  certainly have something to say about it.
+        So now debug set to false, we can  breathe a sigh of relief and move on.
+        The next thing we need to  do is add another setting:
+        X_FRAME_OPTIONS = 'SAMEORIGIN'
+        So what does this do?
+        Well if we didn't set this,  
+        then our summer note editor would no  longer work when we deploy the project.
+        That's because of a security feature known as  Cross-Origin Resource Sharing or CORS for short.
+        CORS tells the browser what  resources are permitted to be loaded.
+        Without this setting, our browser wouldn't  be able to load the Summernote editor,  
+        which would render our blog a little useless.
+        So now let's save everything, add  it, commit it and push it to Github.
+        Now that's done, we can head  back over to Heroku here.
+        We're going to click on reveal config  vars and we can remove that disable  
+        collect static environment variable  that we put on way back in the project.
+        Now we can go to the deploy tab and scroll  down to the end and deploy our branch.
+        We'll view the build log as well just  to make sure that everything works okay.
+        And it says that our app  has been deployed to Heroku.
+        So let's click on the open  app button to take a look.
+        And it looks identical to how it  did when we were running it locally,  
+        because we're using the same database  and the same Cloudinary resources.
+        So our blog is now complete,  it's hosted on Heroku. 
+        What next?
+        Well the idea of this project  was to give you something full  
+        featured which could still be built on.
+        And it's worth mentioning too, that larger  applications will have more than one Django app.
+        We just have one in this  project, which is the blog app.
+        Django apps are self-contained packages that  should do only one thing - for example a blog,  
+        or a product catalog, or a booking  calendar, or well, anything really!
+        So when you come to make your own Django projects,  
+        don't fall into the trap of putting  everything together in one app.
+        Also, don't fall into the trap of putting  all of your app logic in the views.py file.
+        It's perfectly okay - in fact encouraged - to put  
+        logic in other files and just import  the bits that you need into your view.
+        So we finished our project  but could it be improved?
+        Well of course it could!
+        Here's a list of things that you  could do to expand the project.
+        Now you don't have to do them, they're just ideas  and I'm not going to give you any solutions to it,  
+        but they are achievable with your  current level of Django knowledge.
+        The first thing is, you could expand the messaging  system as mentioned in our previous video.
+        Have error messages displaying when  a user submits an empty comment form,  
+        as well as the success messages.
+        You could use the social apps feature of AllAuth  to add single sign-on functionality using Google,  
+        Facebook, or another authentication provider.
+        You could build a number_of_comments  method. So that the number of comments  
+        can be shown on the front page  as well as the number of likes.
+        An even more advanced task will be to combine  your knowledge of the JavaScript fetch API  
+        with your Django knowledge and  change the like functionality  
+        so that it calls the like URL in the  background and doesn't reload the page.
+        These are just ideas.
+        But it does help you to see how you could really  use this project as a foundation for other things.
+        We have nothing more to build,  and I have nothing more to say. 
+        So well done for completing  this introduction to Django!
+
 
 
 
