@@ -1359,7 +1359,7 @@ and then clean up before our final deployment.
         In effect, we're toggling the state.
         So first, let's get the relevant  post using our get_object_or_404 method.
         Then, we'll toggle the state.
-        
+
         We'll use an if statement to check if our post is  already liked and if it is we'll remove the like.
         So remember how we checked if a  post was already liked before?
         We used an if statement, we filtered  our post.likes on the user ID  
@@ -1367,16 +1367,20 @@ and then clean up before our final deployment.
         If it hasn't already been liked,  then we need to add the like.  
         So we can add an else clause  with: post.likes.add(request.user)
         Now we need to reload our post_detail  template so that we can see the results.
-        To do this, we'll use a new response  type called HttpResponseRedirect.  
+
+    - To do this, we'll use a new response  type called HttpResponseRedirect.  
         So let's go up to the top of our views.py  file and import this from django.http.
         So: from django.http import HttpResponseRedirect
+
         And we also need to add the reverse shortcut.  This allows us to look up a URL by the name  
         that we give it in our urls.py file. So  add reverse to our django.shortcuts import.
-        And now back in our view, we  can put all of this together.
+
+    - And now back in our view, we  can put all of this together.
         So let's scroll down to the end  and we're going to just add:
         return HttpResponseRedirect(reverse('post_detail',  args=[slug]))
         And the arguments will be the slugs, so that we know which post to load. So now when we like or unlike a post it will reload our page.
-        Okay, now that our view is set  up, let's modify the template. 
+
+    - Okay, now that our view is set  up, let's modify the template. 
         Now, if we scroll down here.
         We can see that we have our heart showing  the number of likes, and we want to turn this  
         heart into a button that we can use to like or  unlike the post - but only if we're logged in.
@@ -1417,7 +1421,8 @@ and then clean up before our final deployment.
         We already have this below, but I'm just going  to do it in a span rather than a strong class.
         So as you can see just a span with the class of  text-secondary showing the post number of likes.
         And there we go, that's our form created.
-        So now, all that we need to  do then is the third step.
+
+    - So now, all that we need to  do then is the third step.
         Which is to add our URL.
         And I'm going to let you add this so  here are the parameters you'll need.
         The path is: like/<slug:slug> 
@@ -1425,16 +1430,98 @@ and then clean up before our final deployment.
         And the name matches the  name in our form 'post_like'.
         How did you get on?
         Well this is what your URL should look like.
-        Okay, so let's save that and run our project.
-        And now when we're logged in, we can like and  unlike the posts from our post_detail page.
-        So we've completed our three  steps to adding a new view,  
-        and now we can move our final  user story into the Done column.
-        Well done! So there are just a couple  of tidy ups that we need to do,  
-        and then we can make our final deployment.
 
+        path('like/<slug:slug>/', views.PostLike.as_view(), name='post_like'),
 
+Okay, so let's save that and run our project.
+And now when we're logged in, we can like and  unlike the posts from our post_detail page.
+So we've completed our three  steps to adding a new view,  
+and now we can move our final  user story into the Done column.
+Well done! So there are just a couple  of tidy ups that we need to do,  
+and then we can make our final deployment.
 
+# __Messages__
+WHAT IS IT? ---- Messages
+WHAT DOES IT DO? ---- Allows us to provide flash messages to our user
+HOW DO YOU USE IT? ---- Add the message tags and some custom JavaScript
 
+In this video, I want to  talk to you about messages.
+Messages in Django are very useful because they  
+can be flashed onto the screen to  give visual feedback to the user.
+We're going to add message handling to our blog to  give feedback when we've performed user actions.
+And we're going to add some  custom JavaScript to cause  
+the messages to automatically dismiss themselves.
+
+    - So let's get our settings.py file ready.
+        Now you'll notice when we scroll  down in our settings.py file  
+        that Django handles messages by default - django.contrib.messages is automatically  
+        in our INSTALLED_APPS list.
+        So at the top of our file let's import our  messages so that we can assign tags to them.
+        So: from django.contrib.messages  import constants as messages
+        And now further down in the  file, we can assign the tags.
+        What do we mean by this?
+        Well each message has a built-in tag to  indicate the category of the message -
+        is it a warning or an error? Is it indicating a  success or is it just giving info to the user?
+        We want to assign these tags  to different Bootstrap classes  
+        so that the color of our message will  change according to its category.
+        So I'm just going to put these  in here and as you can see,  
+        each of these different tags is  set to a different Bootstrap class.
+        Now if you want to read up a little bit more  on Bootstrap alerts and their various classes,  
+        I've put a link to the  documentation below the video.
+
+    - So let's add our message display  now, back in our base.html file,  
+        below the nav container. We're going to  add a new row, column, and an offset.
+        So I'm just going to add that here.
+        So it's a container, followed by a row,  
+        followed by a column of md8 with an  offset of two so that it's centered.
+        And now inside our column, we can create a  for loop to iterate through our messages.
+        Now messages are built into Django, as  we've said, so you don't need to add  
+        anything to your view code here. We  can just say for messages in messages.
+        And then we have our end for here.
+        And inside, we're going to display  any of the messages that are there  
+        in this messages list. So  we'll just create a new class.
+        We're going to create it with alert.
+        We're also going to use the  message tags as a class,  
+        remember these are the ones that we  added to our settings.py file earlier.
+        And all of the other classes here are all just  
+        standard Bootstrap alert classes  and attributes that we need to give.
+        Inside our div then, we can give our message  
+        content and we'll use the safe filter here  to make sure that any HTML or scripts that  
+        are provided are rendered safe before  they're actually viewed by the user.
+        Then we'll just add a dismiss button.
+        Again, as I said all of these are  standard Bootstrap alert controls.
+        So have a look at the documentation if you want to  
+        understand a little bit more  about what these are doing.
+        Just delete that for some reason my autocomplete  is giving me two closing tags every so often.
+        All right so let's save our template, and then  we can run our project and see what happens.
+        So: python3 manage py runserver
+        And let's try logging in.
+        So I'll log in as my Brian  user, that I created earlier.
+        And now you can see that we get this cool  
+        little alert telling us that  we've successfully signed in.
+        You'll also get the same ones for signing  out and when you create a new user too.
+        So far so good, but this doesn't  automatically dismiss itself.
+        So let's add the JavaScript to do that now.
+        It's very small so we're not going  to put it in a separate file.
+        We'll just add some script tags  below our footer in base.html  
+        and we're going to use a standard JavaScript  setTimeout function to dismiss the alert.
+        So we'll create our function here setTimeout.
+        We'll get the ID of our messages div.
+        So: document.getElementById('msg')
+        Then we'll assign a new Bootstrap alert to alert.
+        And we'll pass in the ID there that  we've just got, and then alert close.
+        And then we'll add 3000  milliseconds or three seconds,  
+        so this will close the alert after three seconds.
+        And the alert close method is all  part of Bootstrap's JavaScript toolkit.
+        Again, there's more info in the  documentation linked below the video.
+        So let's try it again, I'm  going to log back in as Brian.
+        And when I do this, we get my alert and  after three seconds it dismisses itself.
+        So we now have everything working in our blog.
+        Before we do our final deployment,  I have a little challenge for you.
+        I'd like you to add a success message to  the view when a user leaves a comment.
+        I'm not going to give you this code  
+        but you can find details of how  to add a message below the video.
+        When you've done that and you're ready we  can move on to our final deployment video.
 
 
 
