@@ -1,10 +1,25 @@
 {% extends 'base.html' %} {% block content %}
 
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2 my-3">
+            {% if commented %}
+            <div class="alert alert-success success-dismissible fade show" id="msg" role="alert">
+                Thank you {{ user.username }}, your comment has been submitted for approval
+                <button type="button" class="btn-close float-end" data-bs-dismiss="success" aria-label="Close"></button>                
+            </div>  
+            {% endif %}
+            {% if liked %}
+            <div class="alert alert-success success-dismissible fade show" id="msg" role="alert">
+                Thank you {{ user.username }}, post liked succesfully.
+                <button type="button" class="btn-close float-end" data-bs-dismiss="success" aria-label="Close"></button>                
+            </div>  
+            {% endif %}      
+        </div>
+    </div>
+</div>
+
 {% load crispy_forms_tags %}
-
-
-
-
 
 <div class="masthead">
     <div class="container">

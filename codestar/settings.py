@@ -62,11 +62,11 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 MESSAGE_TAGS = {
-    messages.DEBUG: 'alert_info',
-    messages.INFO: 'alert_info',
-    messages.SUCCESS: 'alert_success',
-    messages.WARNING: 'alert_warning',
-    messages.ERROR: 'alert_danger',
+    messages.DEBUG: 'alert-info',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
 }
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
