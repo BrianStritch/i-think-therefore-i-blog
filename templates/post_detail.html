@@ -9,12 +9,7 @@
                 <button type="button" class="btn-close float-end" data-bs-dismiss="success" aria-label="Close"></button>                
             </div>  
             {% endif %}
-            {% if liked %}
-            <div class="alert alert-success success-dismissible fade show" id="msg" role="alert">
-                Thank you {{ user.username }}, post liked succesfully.
-                <button type="button" class="btn-close float-end" data-bs-dismiss="success" aria-label="Close"></button>                
-            </div>  
-            {% endif %}      
+                
         </div>
     </div>
 </div>
@@ -59,7 +54,7 @@
                                 <form class="d-inline" action="{% url 'post_like' post.slug %}" method="POST">
                                     {% csrf_token %}
                                     {% if liked %}
-                                        <button type="submit" name="blogpost_id" value="{{ post.slug }}" class="btn-like" >
+                                        <button type="submit" name="blogpost_id" value="{{ post.slug }}" class="btn-like" id="like-btn">
                                             <i class="fas fa-heart" ></i>
                                         </button>
 

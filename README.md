@@ -1501,6 +1501,7 @@ the messages to automatically dismiss themselves.
         little alert telling us that  we've successfully signed in.
         You'll also get the same ones for signing  out and when you create a new user too.
         So far so good, but this doesn't  automatically dismiss itself.
+
         So let's add the JavaScript to do that now.
         It's very small so we're not going  to put it in a separate file.
         We'll just add some script tags  below our footer in base.html  
@@ -1514,16 +1515,17 @@ the messages to automatically dismiss themselves.
         so this will close the alert after three seconds.
         And the alert close method is all  part of Bootstrap's JavaScript toolkit.
         Again, there's more info in the  documentation linked below the video.
-        So let's try it again, I'm  going to log back in as Brian.
-        And when I do this, we get my alert and  after three seconds it dismisses itself.
-        So we now have everything working in our blog.
-        Before we do our final deployment,  I have a little challenge for you.
-        I'd like you to add a success message to  the view when a user leaves a comment.
-        I'm not going to give you this code  
-        but you can find details of how  to add a message below the video.
-        When you've done that and you're ready we  can move on to our final deployment video.
 
+So let's try it again, I'm  going to log back in as Brian.
+And when I do this, we get my alert and  after three seconds it dismisses itself.
+So we now have everything working in our blog.
+Before we do our final deployment,  I have a little challenge for you.
+I'd like you to add a success message to  the view when a user leaves a comment.
+I'm not going to give you this code  
+but you can find details of how  to add a message below the video.
+When you've done that and you're ready we  can move on to our final deployment video.
 
+# __
 
 
 
