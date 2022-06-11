@@ -35,7 +35,7 @@ DEBUG = False # this is set to false when deployed for the final time
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
-ALLOWED_HOSTS = ['bs-codestar-2022.herokuapp.com', 'localhost']
+ALLOWED_HOSTS = ['bs-codestar-2022.herokuapp.com','i-think-therefore-i-blog-bs.herokuapp.com', 'localhost']
 
 
 # Application definition
